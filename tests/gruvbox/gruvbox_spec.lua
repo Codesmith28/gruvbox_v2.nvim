@@ -348,8 +348,21 @@ describe("tests", function()
     local palette = gruvbox.palette
     local green = palette.bright_green or "#b8bb26"
     local yellow = palette.bright_yellow or "#fabd2f"
+    local aqua = palette.bright_aqua or "#8ec07c"
+    local red = palette.bright_red or "#fb4934"
+    local purple = palette.bright_purple or "#d3869b"
+    local orange = palette.bright_orange or "#fe8019"
+
+    -- Default Directory is cyan
+    local dir_id = vim.api.nvim_get_hl_id_by_name("Directory")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(dir_id), "fg", "gui"), aqua)
 
     -- Snacks Picker / Explorer
+    local snacks_dir = vim.api.nvim_get_hl_id_by_name("SnacksPickerDirectory")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(snacks_dir), "fg", "gui"), aqua)
+    local snacks_path_dir = vim.api.nvim_get_hl_id_by_name("SnacksPickerDir")
+    assert.are.same(vim.fn.synIDattr(snacks_path_dir, "fg", "gui"), aqua)
+
     local snacks_staged = vim.api.nvim_get_hl_id_by_name("SnacksPickerGitStatusStaged")
     assert.are.same(vim.fn.synIDattr(snacks_staged, "fg", "gui"), green)
     assert.are.same(vim.fn.synIDattr(snacks_staged, "italic", "gui"), "1")
@@ -358,7 +371,20 @@ describe("tests", function()
     assert.are.same(vim.fn.synIDattr(snacks_mod, "fg", "gui"), yellow)
     assert.are.same(vim.fn.synIDattr(snacks_mod, "italic", "gui"), "1")
 
+    local snacks_untracked = vim.api.nvim_get_hl_id_by_name("SnacksPickerGitStatusUntracked")
+    assert.are.same(vim.fn.synIDattr(snacks_untracked, "fg", "gui"), aqua)
+    assert.are.same(vim.fn.synIDattr(snacks_untracked, "italic", "gui"), "1")
+
+    local snacks_deleted = vim.api.nvim_get_hl_id_by_name("SnacksPickerGitStatusDeleted")
+    assert.are.same(vim.fn.synIDattr(snacks_deleted, "fg", "gui"), red)
+    assert.are.same(vim.fn.synIDattr(snacks_deleted, "italic", "gui"), "1")
+
     -- NeoTree
+    local neotree_dirname = vim.api.nvim_get_hl_id_by_name("NeoTreeDirectoryName")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(neotree_dirname), "fg", "gui"), aqua)
+    local neotree_diricon = vim.api.nvim_get_hl_id_by_name("NeoTreeDirectoryIcon")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(neotree_diricon), "fg", "gui"), aqua)
+
     local neotree_staged = vim.api.nvim_get_hl_id_by_name("NeoTreeGitStaged")
     assert.are.same(vim.fn.synIDattr(neotree_staged, "fg", "gui"), green)
     assert.are.same(vim.fn.synIDattr(neotree_staged, "italic", "gui"), "1")
@@ -367,7 +393,16 @@ describe("tests", function()
     assert.are.same(vim.fn.synIDattr(neotree_mod, "fg", "gui"), yellow)
     assert.are.same(vim.fn.synIDattr(neotree_mod, "italic", "gui"), "1")
 
+    local neotree_untracked = vim.api.nvim_get_hl_id_by_name("NeoTreeGitUntracked")
+    assert.are.same(vim.fn.synIDattr(neotree_untracked, "fg", "gui"), aqua)
+    assert.are.same(vim.fn.synIDattr(neotree_untracked, "italic", "gui"), "1")
+
     -- NvimTree
+    local nvimtree_foldericon = vim.api.nvim_get_hl_id_by_name("NvimTreeFolderIcon")
+    assert.are.same(vim.fn.synIDattr(nvimtree_foldericon, "fg", "gui"), aqua)
+    local nvimtree_foldername = vim.api.nvim_get_hl_id_by_name("NvimTreeFolderName")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(nvimtree_foldername), "fg", "gui"), aqua)
+
     local nvimtree_staged = vim.api.nvim_get_hl_id_by_name("NvimTreeGitStaged")
     assert.are.same(vim.fn.synIDattr(nvimtree_staged, "fg", "gui"), green)
     assert.are.same(vim.fn.synIDattr(nvimtree_staged, "italic", "gui"), "1")
@@ -375,6 +410,14 @@ describe("tests", function()
     local nvimtree_dirty = vim.api.nvim_get_hl_id_by_name("NvimTreeGitDirty")
     assert.are.same(vim.fn.synIDattr(nvimtree_dirty, "fg", "gui"), yellow)
     assert.are.same(vim.fn.synIDattr(nvimtree_dirty, "italic", "gui"), "1")
+
+    local nvimtree_new = vim.api.nvim_get_hl_id_by_name("NvimTreeGitNew")
+    assert.are.same(vim.fn.synIDattr(nvimtree_new, "fg", "gui"), aqua)
+    assert.are.same(vim.fn.synIDattr(nvimtree_new, "italic", "gui"), "1")
+
+    -- diffFile
+    local diff_file = vim.api.nvim_get_hl_id_by_name("diffFile")
+    assert.are.same(vim.fn.synIDattr(diff_file, "italic", "gui"), "1")
   end)
 
   it("integrates with BufferLine, TreesitterContext, RenderMarkdown, and Diffview", function()
