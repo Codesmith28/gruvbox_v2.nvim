@@ -1,99 +1,99 @@
-*gruvbox.nvim.txt*
+*gruvbox_v2_v2.nvim.txt*
                              For Neovim >= 0.8.0    Last change: 2026 April 15
 
 ==============================================================================
-Table of Contents                             *gruvbox.nvim-table-of-contents*
+Table of Contents                             *gruvbox_v2_v2.nvim-table-of-contents*
 
-1. Prerequisites                                  |gruvbox.nvim-prerequisites|
-2. Installing                                        |gruvbox.nvim-installing|
-  - Using vim.pack (Neovim 0.12+)|gruvbox.nvim-installing-using-vim.pack-(neovim-0.12+)|
-  - Using packer                        |gruvbox.nvim-installing-using-packer|
-  - Using lazy.nvim                  |gruvbox.nvim-installing-using-lazy.nvim|
-  - Using vim-plug                    |gruvbox.nvim-installing-using-vim-plug|
-3. Basic Usage                                      |gruvbox.nvim-basic-usage|
-4. Configuration                                  |gruvbox.nvim-configuration|
-  - Overriding                         |gruvbox.nvim-configuration-overriding|
+1. Prerequisites                                  |gruvbox_v2_v2.nvim-prerequisites|
+2. Installing                                        |gruvbox_v2_v2.nvim-installing|
+  - Using vim.pack (Neovim 0.12+)|gruvbox_v2_v2.nvim-installing-using-vim.pack-(neovim-0.12+)|
+  - Using packer                        |gruvbox_v2_v2.nvim-installing-using-packer|
+  - Using lazy.nvim                  |gruvbox_v2_v2.nvim-installing-using-lazy.nvim|
+  - Using vim-plug                    |gruvbox_v2_v2.nvim-installing-using-vim-plug|
+3. Basic Usage                                      |gruvbox_v2_v2.nvim-basic-usage|
+4. Configuration                                  |gruvbox_v2_v2.nvim-configuration|
+  - Overriding                         |gruvbox_v2_v2.nvim-configuration-overriding|
 >
-      <h1> <img src="https://i.postimg.cc/WpQzgxVh/plugin-Icon.png" width="80px"><br/>gruvbox.nvim</h1>
+      <h1> <img src="https://i.postimg.cc/WpQzgxVh/plugin-Icon.png" width="80px"><br/>gruvbox_v2_v2.nvim</h1>
      </div>
 <
 
 
-A port of gruvbox community <https://github.com/gruvbox-community/gruvbox>
+A port of gruvbox_v2 community <https://github.com/gruvbox_v2-community/gruvbox_v2>
 theme to lua with treesitter
 <https://github.com/nvim-treesitter/nvim-treesitter> and |semantic highlights|
 support!
 
 
 ==============================================================================
-1. Prerequisites                                  *gruvbox.nvim-prerequisites*
+1. Prerequisites                                  *gruvbox_v2_v2.nvim-prerequisites*
 
 Neovim 0.8.0+
 
 
 ==============================================================================
-2. Installing                                        *gruvbox.nvim-installing*
+2. Installing                                        *gruvbox_v2_v2.nvim-installing*
 
 
-USING VIM.PACK (NEOVIM 0.12+)*gruvbox.nvim-installing-using-vim.pack-(neovim-0.12+)*
+USING VIM.PACK (NEOVIM 0.12+)*gruvbox_v2_v2.nvim-installing-using-vim.pack-(neovim-0.12+)*
 
 >lua
     vim.pack.add({
-      "https://github.com/ellisonleao/gruvbox.nvim"
+      "https://github.com/ellisonleao/gruvbox_v2_v2.nvim"
     })
     
-    require("gruvbox").setup()
-    vim.cmd.colorscheme("gruvbox")
+    require("gruvbox_v2_v2").setup()
+    vim.cmd.colorscheme("gruvbox_v2")
 <
 
 
-USING PACKER                            *gruvbox.nvim-installing-using-packer*
+USING PACKER                            *gruvbox_v2_v2.nvim-installing-using-packer*
 
 >lua
-    use { "ellisonleao/gruvbox.nvim" }
+    use { "ellisonleao/gruvbox_v2_v2.nvim" }
 <
 
 
-USING LAZY.NVIM                      *gruvbox.nvim-installing-using-lazy.nvim*
+USING LAZY.NVIM                      *gruvbox_v2_v2.nvim-installing-using-lazy.nvim*
 
 >lua
-    { "ellisonleao/gruvbox.nvim", priority = 1000 , config = true, opts = ...}
+    { "ellisonleao/gruvbox_v2_v2.nvim", priority = 1000 , config = true, opts = ...}
 <
 
 
-USING VIM-PLUG                        *gruvbox.nvim-installing-using-vim-plug*
+USING VIM-PLUG                        *gruvbox_v2_v2.nvim-installing-using-vim-plug*
 
 >vim
-    Plug 'ellisonleao/gruvbox.nvim'
+    Plug 'ellisonleao/gruvbox_v2_v2.nvim'
 <
 
 
 ==============================================================================
-3. Basic Usage                                      *gruvbox.nvim-basic-usage*
+3. Basic Usage                                      *gruvbox_v2_v2.nvim-basic-usage*
 
 Inside `init.vim`
 
 >vim
     set background=dark " or light if you want light mode
-    colorscheme gruvbox
+    colorscheme gruvbox_v2_v2
 <
 
 Inside `init.lua`
 
 >lua
     vim.o.background = "dark" -- or "light" for light mode
-    vim.cmd([[colorscheme gruvbox]])
+    vim.cmd([[colorscheme gruvbox_v2_v2]])
 <
 
 
 ==============================================================================
-4. Configuration                                  *gruvbox.nvim-configuration*
+4. Configuration                                  *gruvbox_v2_v2.nvim-configuration*
 
-Additional settings for gruvbox are:
+Additional settings for gruvbox_v2 are:
 
 >lua
     -- Default options:
-    require("gruvbox").setup({
+    require("gruvbox_v2_v2").setup({
       terminal_colors = true, -- add neovim terminal colors
       undercurl = true,
       underline = true,
@@ -116,14 +116,14 @@ Additional settings for gruvbox are:
       dim_inactive = false,
       transparent_mode = false,
     })
-    vim.cmd("colorscheme gruvbox")
+    vim.cmd("colorscheme gruvbox_v2_v2")
 <
 
 **VERY IMPORTANT**: Make sure to call setup() **BEFORE** calling the
 colorscheme command, to use your custom configs
 
 
-OVERRIDING                             *gruvbox.nvim-configuration-overriding*
+OVERRIDING                             *gruvbox_v2_v2.nvim-configuration-overriding*
 
 
 PALETTE ~
@@ -131,12 +131,12 @@ PALETTE ~
 You can specify your own palette colors. For example:
 
 >lua
-    require("gruvbox").setup({
+    require("gruvbox_v2_v2").setup({
         palette_overrides = {
             bright_green = "#990000",
         }
     })
-    vim.cmd("colorscheme gruvbox")
+    vim.cmd("colorscheme gruvbox_v2_v2")
 <
 
 
@@ -146,24 +146,24 @@ If you don’t enjoy the current color for a specific highlight group, now you
 can just override it in the setup. For example:
 
 >lua
-    require("gruvbox").setup({
+    require("gruvbox_v2_v2").setup({
         overrides = {
             SignColumn = {bg = "#ff9900"}
         }
     })
-    vim.cmd("colorscheme gruvbox")
+    vim.cmd("colorscheme gruvbox_v2_v2")
 <
 
 It also works with treesitter groups and lsp semantic highlight tokens
 
 >lua
-    require("gruvbox").setup({
+    require("gruvbox_v2_v2").setup({
         overrides = {
             ["@lsp.type.method"] = { bg = "#ff9900" },
             ["@comment.lua"] = { bg = "#000000" },
         }
     })
-    vim.cmd("colorscheme gruvbox")
+    vim.cmd("colorscheme gruvbox_v2_v2")
 <
 
 Please note that the override values must follow the attributes from the

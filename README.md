@@ -28,7 +28,7 @@
     transparent = false,   -- set to true for buffer-only transparency
   },
   config = function(_, opts)
-    require("gruvbox").setup(opts)
+    require("gruvbox_v2").setup(opts)
     vim.cmd.colorscheme("gruvbox_v2")
   end,
 }
@@ -41,7 +41,7 @@
 Customize palette colors or override any highlight group with ease:
 
 ```lua
-require("gruvbox").setup({
+require("gruvbox_v2").setup({
   contrast = "hard",
   transparent = true,
   palette_overrides = {

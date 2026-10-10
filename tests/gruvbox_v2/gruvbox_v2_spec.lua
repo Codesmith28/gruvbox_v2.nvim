@@ -1,5 +1,5 @@
-require("plenary.reload").reload_module("gruvbox", true)
-local gruvbox = require("gruvbox")
+require("plenary.reload").reload_module("gruvbox_v2", true)
+local gruvbox = require("gruvbox_v2")
 local default = gruvbox.config
 
 local function clear_term_colors()
@@ -147,7 +147,7 @@ describe("tests", function()
     gruvbox.load()
 
     -- dark bg
-    local colors = require("gruvbox").palette
+    local colors = require("gruvbox_v2").palette
     vim.opt.background = "dark"
     assert.are.same(vim.g.terminal_color_0, colors.bg_dark or "#141617")
 
@@ -312,13 +312,8 @@ describe("tests", function()
     assert.is_not_nil(theme_v2)
     assert.is_not_nil(theme_v2.normal)
     assert.are.same(theme_v2.normal.c.bg, "#141617")
-
-    local theme = require("lualine.themes.gruvbox")
-    assert.is_not_nil(theme)
-    assert.is_not_nil(theme.normal)
-    assert.are.same(theme.normal.c.bg, "#141617")
-    assert.is_not_nil(theme.terminal)
-    assert.are.same(theme.terminal.c.bg, "#141617")
+    assert.is_not_nil(theme_v2.terminal)
+    assert.are.same(theme_v2.terminal.c.bg, "#141617")
   end)
 
   it("provides modern Neovim ecosystem highlights (LSP, Snacks, Flash, Ibl, Noice)", function()
