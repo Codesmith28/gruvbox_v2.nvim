@@ -435,4 +435,33 @@ describe("tests", function()
     local dv_mod = vim.api.nvim_get_hl_id_by_name("DiffviewStatusModified")
     assert.are.same(vim.fn.synIDattr(dv_mod, "italic", "gui"), "1")
   end)
+
+  it("styles word under cursor highlights subtly like Catppuccin with zero external dependencies", function()
+    vim.opt.background = "dark"
+    gruvbox.setup()
+    gruvbox.load("gruvbox_v2")
+
+    local text_id = vim.api.nvim_get_hl_id_by_name("LspReferenceText")
+    assert.are.same(vim.fn.synIDattr(text_id, "bg", "gui"), "#504945")
+    assert.are.same(vim.fn.synIDattr(text_id, "fg", "gui"), "")
+
+    local read_id = vim.api.nvim_get_hl_id_by_name("LspReferenceRead")
+    assert.are.same(vim.fn.synIDattr(read_id, "bg", "gui"), "#504945")
+    assert.are.same(vim.fn.synIDattr(read_id, "fg", "gui"), "")
+
+    local write_id = vim.api.nvim_get_hl_id_by_name("LspReferenceWrite")
+    assert.are.same(vim.fn.synIDattr(write_id, "bg", "gui"), "#504945")
+    assert.are.same(vim.fn.synIDattr(write_id, "underline", "gui"), "1")
+    assert.are.same(vim.fn.synIDattr(write_id, "sp", "gui"), "#fe8019")
+
+    -- vim-illuminate, mini.cursorword, and cursorword links
+    local ill_text = vim.api.nvim_get_hl_id_by_name("IlluminatedWordText")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(ill_text), "bg", "gui"), "#504945")
+
+    local mini_cw = vim.api.nvim_get_hl_id_by_name("MiniCursorword")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(mini_cw), "bg", "gui"), "#504945")
+
+    local cw = vim.api.nvim_get_hl_id_by_name("CursorWord")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(cw), "bg", "gui"), "#504945")
+  end)
 end)
