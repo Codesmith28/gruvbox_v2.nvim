@@ -336,7 +336,7 @@ describe("tests", function()
     assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(noice_id), "bg", "gui"), "#141617")
   end)
 
-  it("styles diffed files in explorers (Snacks, NeoTree, NvimTree) as italic with green staged and yellow unstaged", function()
+  it("styles directories and files wrt git status (Snacks, NeoTree, NvimTree, MiniFiles) following Catppuccin scheme", function()
     gruvbox.setup()
     gruvbox.load("gruvbox_v2")
 
@@ -347,6 +347,31 @@ describe("tests", function()
     local red = palette.bright_red or "#fb4934"
     local purple = palette.bright_purple or "#d3869b"
     local orange = palette.bright_orange or "#fe8019"
+    local gray = palette.gray or "#928374"
+    local blue = palette.bright_blue or "#83a598"
+
+    -- Standard Neovim diff groups
+    local added_id = vim.api.nvim_get_hl_id_by_name("Added")
+    assert.are.same(vim.fn.synIDattr(added_id, "fg", "gui"), green)
+    local changed_id = vim.api.nvim_get_hl_id_by_name("Changed")
+    assert.are.same(vim.fn.synIDattr(changed_id, "fg", "gui"), yellow)
+    local removed_id = vim.api.nvim_get_hl_id_by_name("Removed")
+    assert.are.same(vim.fn.synIDattr(removed_id, "fg", "gui"), red)
+
+    local diff_added = vim.api.nvim_get_hl_id_by_name("diffAdded")
+    assert.are.same(vim.fn.synIDattr(diff_added, "fg", "gui"), green)
+    local diff_changed = vim.api.nvim_get_hl_id_by_name("diffChanged")
+    assert.are.same(vim.fn.synIDattr(diff_changed, "fg", "gui"), yellow)
+    local diff_removed = vim.api.nvim_get_hl_id_by_name("diffRemoved")
+    assert.are.same(vim.fn.synIDattr(diff_removed, "fg", "gui"), red)
+
+    -- GitSigns highlights
+    local gs_add = vim.api.nvim_get_hl_id_by_name("GitSignsAdd")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(gs_add), "fg", "gui"), green)
+    local gs_change = vim.api.nvim_get_hl_id_by_name("GitSignsChange")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(gs_change), "fg", "gui"), yellow)
+    local gs_delete = vim.api.nvim_get_hl_id_by_name("GitSignsDelete")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(gs_delete), "fg", "gui"), red)
 
     -- Default Directory is cyan and unbold
     local dir_id = vim.api.nvim_get_hl_id_by_name("Directory")
@@ -359,22 +384,32 @@ describe("tests", function()
     assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(snacks_dir), "bold", "gui"), "")
     local snacks_path_dir = vim.api.nvim_get_hl_id_by_name("SnacksPickerDir")
     assert.are.same(vim.fn.synIDattr(snacks_path_dir, "fg", "gui"), aqua)
+    local snacks_file = vim.api.nvim_get_hl_id_by_name("SnacksPickerFile")
+    assert.is_not_nil(vim.fn.synIDattr(snacks_file, "fg", "gui"))
 
     local snacks_staged = vim.api.nvim_get_hl_id_by_name("SnacksPickerGitStatusStaged")
     assert.are.same(vim.fn.synIDattr(snacks_staged, "fg", "gui"), green)
-    assert.are.same(vim.fn.synIDattr(snacks_staged, "italic", "gui"), "1")
+
+    local snacks_added = vim.api.nvim_get_hl_id_by_name("SnacksPickerGitStatusAdded")
+    assert.are.same(vim.fn.synIDattr(snacks_added, "fg", "gui"), green)
 
     local snacks_mod = vim.api.nvim_get_hl_id_by_name("SnacksPickerGitStatusModified")
     assert.are.same(vim.fn.synIDattr(snacks_mod, "fg", "gui"), yellow)
-    assert.are.same(vim.fn.synIDattr(snacks_mod, "italic", "gui"), "1")
+
+    local snacks_unstaged = vim.api.nvim_get_hl_id_by_name("SnacksPickerGitStatusUnstaged")
+    assert.are.same(vim.fn.synIDattr(snacks_unstaged, "fg", "gui"), yellow)
 
     local snacks_untracked = vim.api.nvim_get_hl_id_by_name("SnacksPickerGitStatusUntracked")
-    assert.are.same(vim.fn.synIDattr(snacks_untracked, "fg", "gui"), aqua)
-    assert.are.same(vim.fn.synIDattr(snacks_untracked, "italic", "gui"), "1")
+    assert.are.same(vim.fn.synIDattr(snacks_untracked, "fg", "gui"), gray)
 
     local snacks_deleted = vim.api.nvim_get_hl_id_by_name("SnacksPickerGitStatusDeleted")
     assert.are.same(vim.fn.synIDattr(snacks_deleted, "fg", "gui"), red)
-    assert.are.same(vim.fn.synIDattr(snacks_deleted, "italic", "gui"), "1")
+
+    local snacks_unmerged = vim.api.nvim_get_hl_id_by_name("SnacksPickerGitStatusUnmerged")
+    assert.are.same(vim.fn.synIDattr(snacks_unmerged, "fg", "gui"), red)
+    assert.are.same(vim.fn.synIDattr(snacks_unmerged, "bold", "gui"), "1")
+
+    assert.is_true(gruvbox.snacks_opts.picker.sources.explorer.git_status_open)
 
     -- NeoTree
     local neotree_dirname = vim.api.nvim_get_hl_id_by_name("NeoTreeDirectoryName")
@@ -387,15 +422,21 @@ describe("tests", function()
 
     local neotree_staged = vim.api.nvim_get_hl_id_by_name("NeoTreeGitStaged")
     assert.are.same(vim.fn.synIDattr(neotree_staged, "fg", "gui"), green)
-    assert.are.same(vim.fn.synIDattr(neotree_staged, "italic", "gui"), "1")
+
+    local neotree_folder_staged = vim.api.nvim_get_hl_id_by_name("NeoTreeFolderStaged")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(neotree_folder_staged), "fg", "gui"), green)
 
     local neotree_mod = vim.api.nvim_get_hl_id_by_name("NeoTreeGitModified")
     assert.are.same(vim.fn.synIDattr(neotree_mod, "fg", "gui"), yellow)
-    assert.are.same(vim.fn.synIDattr(neotree_mod, "italic", "gui"), "1")
+
+    local neotree_folder_dirty = vim.api.nvim_get_hl_id_by_name("NeoTreeFolderDirty")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(neotree_folder_dirty), "fg", "gui"), yellow)
+
+    local neotree_unstaged = vim.api.nvim_get_hl_id_by_name("NeoTreeGitUnstaged")
+    assert.are.same(vim.fn.synIDattr(neotree_unstaged, "fg", "gui"), yellow)
 
     local neotree_untracked = vim.api.nvim_get_hl_id_by_name("NeoTreeGitUntracked")
-    assert.are.same(vim.fn.synIDattr(neotree_untracked, "fg", "gui"), aqua)
-    assert.are.same(vim.fn.synIDattr(neotree_untracked, "italic", "gui"), "1")
+    assert.are.same(vim.fn.synIDattr(neotree_untracked, "fg", "gui"), purple)
 
     -- NvimTree
     local nvimtree_foldericon = vim.api.nvim_get_hl_id_by_name("NvimTreeFolderIcon")
@@ -411,28 +452,52 @@ describe("tests", function()
 
     local nvimtree_staged = vim.api.nvim_get_hl_id_by_name("NvimTreeGitStaged")
     assert.are.same(vim.fn.synIDattr(nvimtree_staged, "fg", "gui"), green)
-    assert.are.same(vim.fn.synIDattr(nvimtree_staged, "italic", "gui"), "1")
+
+    local nvimtree_folder_staged = vim.api.nvim_get_hl_id_by_name("NvimTreeFolderStaged")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(nvimtree_folder_staged), "fg", "gui"), green)
 
     local nvimtree_dirty = vim.api.nvim_get_hl_id_by_name("NvimTreeGitDirty")
     assert.are.same(vim.fn.synIDattr(nvimtree_dirty, "fg", "gui"), yellow)
-    assert.are.same(vim.fn.synIDattr(nvimtree_dirty, "italic", "gui"), "1")
+
+    local nvimtree_folder_dirty = vim.api.nvim_get_hl_id_by_name("NvimTreeFolderDirty")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(nvimtree_folder_dirty), "fg", "gui"), yellow)
 
     local nvimtree_new = vim.api.nvim_get_hl_id_by_name("NvimTreeGitNew")
-    assert.are.same(vim.fn.synIDattr(nvimtree_new, "fg", "gui"), aqua)
-    assert.are.same(vim.fn.synIDattr(nvimtree_new, "italic", "gui"), "1")
+    assert.are.same(vim.fn.synIDattr(nvimtree_new, "fg", "gui"), blue)
 
-    -- diffFile
-    local diff_file = vim.api.nvim_get_hl_id_by_name("diffFile")
-    assert.are.same(vim.fn.synIDattr(diff_file, "italic", "gui"), "1")
+    -- MiniFiles
+    local minifiles_dir_mod = vim.api.nvim_get_hl_id_by_name("MiniFilesDirectoryModified")
+    assert.are.same(vim.fn.synIDattr(minifiles_dir_mod, "fg", "gui"), yellow)
+
+    local minifiles_dir_staged = vim.api.nvim_get_hl_id_by_name("MiniFilesDirectoryStaged")
+    assert.are.same(vim.fn.synIDattr(minifiles_dir_staged, "fg", "gui"), green)
+
+    local minifiles_file_mod = vim.api.nvim_get_hl_id_by_name("MiniFilesFileModified")
+    assert.are.same(vim.fn.synIDattr(minifiles_file_mod, "fg", "gui"), yellow)
+
+    local minifiles_file_staged = vim.api.nvim_get_hl_id_by_name("MiniFilesFileStaged")
+    assert.are.same(vim.fn.synIDattr(minifiles_file_staged, "fg", "gui"), green)
+
+    local minifiles_file_untracked = vim.api.nvim_get_hl_id_by_name("MiniFilesFileUntracked")
+    assert.are.same(vim.fn.synIDattr(minifiles_file_untracked, "fg", "gui"), gray)
   end)
 
   it("integrates with BufferLine, TreesitterContext, RenderMarkdown, and Diffview", function()
-    gruvbox.setup()
+    gruvbox.setup({ transparent = false })
     gruvbox.load("gruvbox_v2")
 
     -- BufferLine
     local buf_fill = vim.api.nvim_get_hl_id_by_name("BufferLineFill")
     assert.are.same(vim.fn.synIDattr(buf_fill, "bg", "gui"), "#141617")
+
+    local buf_bg = vim.api.nvim_get_hl_id_by_name("BufferLineBackground")
+    assert.are.same(vim.fn.synIDattr(buf_bg, "bg", "gui"), "#141617")
+
+    local buf_vis = vim.api.nvim_get_hl_id_by_name("BufferLineBufferVisible")
+    assert.are.same(vim.fn.synIDattr(buf_vis, "bg", "gui"), "#141617")
+
+    local buf_sel = vim.api.nvim_get_hl_id_by_name("BufferLineBufferSelected")
+    assert.are.same(vim.fn.synIDattr(buf_sel, "bg", "gui"), "#1d2021")
 
     -- TreesitterContext
     local ts_ctx = vim.api.nvim_get_hl_id_by_name("TreesitterContext")
@@ -444,7 +509,89 @@ describe("tests", function()
 
     -- Diffview
     local dv_mod = vim.api.nvim_get_hl_id_by_name("DiffviewStatusModified")
-    assert.are.same(vim.fn.synIDattr(dv_mod, "italic", "gui"), "1")
+    assert.are.same(vim.fn.synIDattr(dv_mod, "fg", "gui"), "#fabd2f")
+  end)
+
+  it("ensures consistent background coloring for tabs and tab icons across BufferLine, Barbar, TabLine, and MiniTabline", function()
+    -- 1. Non-transparent mode
+    gruvbox.setup({ transparent = false })
+    gruvbox.load("gruvbox_v2")
+
+    -- BufferLine theme generator
+    local bl_theme_fn = gruvbox.get_bufferline_theme()
+    assert.is_function(bl_theme_fn)
+    local bl_theme = bl_theme_fn()
+    assert.are.same(bl_theme.background.bg, "#141617")
+    assert.are.same(bl_theme.buffer_visible.bg, "#141617")
+    assert.are.same(bl_theme.fill.bg, "#141617")
+    assert.are.same(bl_theme.buffer_selected.bg, "#1d2021")
+
+    -- metatable accessor
+    assert.is_function(gruvbox.bufferline_theme)
+
+    -- Mock existing devicons and mini.icons before sync
+    vim.api.nvim_set_hl(0, "BufferLineDevIconLua", { fg = 0x83a598, bg = nil })
+    vim.api.nvim_set_hl(0, "BufferLineDevIconLuaSelected", { fg = 0x83a598, bg = nil })
+    vim.api.nvim_set_hl(0, "BufferLineMiniIconsAzure", { fg = 0x83a598, bg = nil })
+    vim.api.nvim_set_hl(0, "BufferLineMiniIconsYellowSelected", { fg = 0xfabd2f, bg = nil })
+
+    gruvbox.sync_bufferline()
+
+    local inact_icon = vim.api.nvim_get_hl(0, { name = "BufferLineDevIconLua" })
+    local sel_icon = vim.api.nvim_get_hl(0, { name = "BufferLineDevIconLuaSelected" })
+    local mini_inact_icon = vim.api.nvim_get_hl(0, { name = "BufferLineMiniIconsAzure" })
+    local mini_sel_icon = vim.api.nvim_get_hl(0, { name = "BufferLineMiniIconsYellowSelected" })
+
+    local function hex_col(val)
+      if not val then return nil end
+      return string.format("#%06x", val)
+    end
+
+    assert.are.same(hex_col(inact_icon.bg), "#141617")
+    assert.are.same(hex_col(mini_inact_icon.bg), "#141617")
+    assert.are.same(hex_col(sel_icon.bg), "#1d2021")
+    assert.are.same(hex_col(mini_sel_icon.bg), "#1d2021")
+
+    -- 2. Transparent mode
+    gruvbox.setup({ transparent = true })
+    gruvbox.load("gruvbox_v2")
+
+    vim.api.nvim_set_hl(0, "BufferLineDevIconLua", { fg = 0x83a598, bg = nil })
+    vim.api.nvim_set_hl(0, "BufferLineDevIconLuaSelected", { fg = 0x83a598, bg = 0x1d2021 })
+    gruvbox.sync_bufferline()
+
+    local sel_tab_t = vim.api.nvim_get_hl(0, { name = "BufferLineBufferSelected" })
+    assert.is_nil(sel_tab_t.bg)
+
+    local inact_icon_t = vim.api.nvim_get_hl(0, { name = "BufferLineDevIconLua" })
+    local sel_icon_t = vim.api.nvim_get_hl(0, { name = "BufferLineDevIconLuaSelected" })
+    assert.are.same(hex_col(inact_icon_t.bg), "#141617")
+    assert.is_nil(sel_icon_t.bg)
+
+    -- 3. Barbar highlights consistency
+    local barb_curr = vim.api.nvim_get_hl(0, { name = "BufferCurrent" })
+    local barb_curr_icon = vim.api.nvim_get_hl(0, { name = "BufferCurrentIcon" })
+    assert.are.same(barb_curr.bg, barb_curr_icon.bg)
+
+    local barb_vis = vim.api.nvim_get_hl(0, { name = "BufferVisible" })
+    local barb_vis_icon = vim.api.nvim_get_hl(0, { name = "BufferVisibleIcon" })
+    assert.are.same(hex_col(barb_vis.bg), "#141617")
+    assert.are.same(hex_col(barb_vis_icon.bg), "#141617")
+
+    local barb_inact = vim.api.nvim_get_hl(0, { name = "BufferInactive" })
+    local barb_inact_icon = vim.api.nvim_get_hl(0, { name = "BufferInactiveIcon" })
+    assert.are.same(hex_col(barb_inact.bg), "#141617")
+    assert.are.same(hex_col(barb_inact_icon.bg), "#141617")
+
+    -- 4. TabLine and MiniTabline consistency
+    local tab_fill = vim.api.nvim_get_hl(0, { name = "TabLineFill" })
+    assert.are.same(hex_col(tab_fill.bg), "#141617")
+
+    local mini_hidden = vim.api.nvim_get_hl(0, { name = "MiniTablineHidden" })
+    assert.are.same(hex_col(mini_hidden.bg), "#141617")
+
+    local mini_vis = vim.api.nvim_get_hl(0, { name = "MiniTablineVisible" })
+    assert.are.same(hex_col(mini_vis.bg), "#141617")
   end)
 
   it("styles word under cursor highlights subtly like Catppuccin with zero external dependencies", function()
@@ -488,5 +635,50 @@ describe("tests", function()
     local at_func_id = vim.api.nvim_get_hl_id_by_name("@function")
     assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(at_func_id), "fg", "gui"), "#8ec07c")
     assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(at_func_id), "bold", "gui"), "")
+  end)
+
+  it("styles errors distinctly with red foreground, bold, and red error squiggles (undercurl)", function()
+    gruvbox.setup()
+    gruvbox.load("gruvbox_v2")
+
+    local err_id = vim.api.nvim_get_hl_id_by_name("Error")
+    assert.are.same(vim.fn.synIDattr(err_id, "fg", "gui"), "#fb4934")
+    assert.are.same(vim.fn.synIDattr(err_id, "bold", "gui"), "1")
+    assert.are.same(vim.fn.synIDattr(err_id, "undercurl", "gui"), "1")
+    assert.are.same(vim.fn.synIDattr(err_id, "sp", "gui"), "#fb4934")
+    assert.are.same(vim.fn.synIDattr(err_id, "reverse", "gui"), "")
+    assert.are.same(vim.fn.synIDattr(err_id, "bg", "gui"), "")
+
+    local at_err_id = vim.api.nvim_get_hl_id_by_name("@error")
+    assert.are.same(vim.fn.synIDattr(at_err_id, "fg", "gui"), "#fb4934")
+    assert.are.same(vim.fn.synIDattr(at_err_id, "undercurl", "gui"), "1")
+    assert.are.same(vim.fn.synIDattr(at_err_id, "sp", "gui"), "#fb4934")
+
+    local at_err_bracket = vim.api.nvim_get_hl_id_by_name("@error.bracket")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(at_err_bracket), "fg", "gui"), "#fb4934")
+
+    local at_err_delim = vim.api.nvim_get_hl_id_by_name("@error.delimiter")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(at_err_delim), "fg", "gui"), "#fb4934")
+
+    local diag_err_id = vim.api.nvim_get_hl_id_by_name("DiagnosticUnderlineError")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(diag_err_id), "undercurl", "gui"), "1")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(diag_err_id), "sp", "gui"), "#fb4934")
+
+    -- build.gradle tasks.register should not have reverse or red background
+    local buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_buf_set_name(buf, "build.gradle")
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, {
+      "tasks.register('generateDelcoConfig', Exec) {}"
+    })
+    vim.api.nvim_set_current_buf(buf)
+    vim.cmd("filetype detect")
+    vim.cmd("syntax on")
+
+    local syn_id = vim.fn.synID(1, 8, 1)
+    local syn_trans = vim.fn.synIDtrans(syn_id)
+    assert.are.same(vim.fn.synIDattr(syn_trans, "reverse", "gui"), "")
+    assert.are.same(vim.fn.synIDattr(syn_trans, "bg", "gui"), "")
+    assert.are.same(vim.fn.synIDattr(syn_trans, "undercurl", "gui"), "1")
+    assert.are.same(vim.fn.synIDattr(syn_trans, "sp", "gui"), "#fb4934")
   end)
 end)

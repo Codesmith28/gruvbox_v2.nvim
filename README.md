@@ -9,8 +9,10 @@
 
 - 🌑 **Darkened Floats & Sidebars (`#141617`)** — Floating windows, pickers, completion popups, and sidebars use a dedicated dark background for instant visual hierarchy against the `#1d2021` buffer.
 - 🪟 **Buffer-Only Transparency (`transparent = true`)** — Only your editor buffer becomes transparent; popups, pickers, and sidebar panels maintain their solid dark backdrop so they never bleed into your terminal.
-- 📂 **Git-Reactive File Trees** — Directories default to crisp cyan (`#8ec07c`), with git-diffed files styled in **italic** (staged = green italic, unstaged = yellow italic, untracked = aqua italic). Works out of the box with Snacks, Neo-tree, Nvim-tree, and Diffview.
-- 🎨 **Zero-Config Lualine** — Automatically discovers and styles `gruvbox_v2` for both dark and light modes.
+- 📑 **Consistent Tab Bar & Icon Backgrounds** — Tab bars (`bufferline.nvim`, `barbar.nvim`, `mini.tabline`, native `TabLine`) keep buffer and file icons (`mini.icons`, `nvim-web-devicons`) perfectly seamless with their enclosing active and inactive tabs in both transparent and non-transparent modes.
+- 📂 **Git-Reactive File Trees & Signs (Catppuccin Style)** — Unstaged modified files and hunks appear in crisp yellow, staged files in green, untracked in subtle gray, deleted in red, and staged hunks automatically dimmed in GitSigns. Works seamlessly across Snacks Explorer, GitSigns, Neo-tree, Nvim-tree, Diffview, and Neovim standard diffs.
+- 🎨 **Zero-Config Lualine & BufferLine** — Automatically discovers and styles `gruvbox_v2` for both dark and light modes, with first-class `get_bufferline_theme()` support.
+- 🚨 **Distinct Error Squiggles & Diagnostics** — Syntax errors and LSP diagnostics stand out cleanly from surrounding syntax with bright red foreground, bold styling, and native red error squiggles (`undercurl = true, sp = red`) with reliable terminal underline fallback.
 
 ---
 
