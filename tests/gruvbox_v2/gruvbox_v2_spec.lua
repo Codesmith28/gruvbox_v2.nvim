@@ -348,13 +348,15 @@ describe("tests", function()
     local purple = palette.bright_purple or "#d3869b"
     local orange = palette.bright_orange or "#fe8019"
 
-    -- Default Directory is cyan
+    -- Default Directory is cyan and unbold
     local dir_id = vim.api.nvim_get_hl_id_by_name("Directory")
     assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(dir_id), "fg", "gui"), aqua)
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(dir_id), "bold", "gui"), "")
 
     -- Snacks Picker / Explorer
     local snacks_dir = vim.api.nvim_get_hl_id_by_name("SnacksPickerDirectory")
     assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(snacks_dir), "fg", "gui"), aqua)
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(snacks_dir), "bold", "gui"), "")
     local snacks_path_dir = vim.api.nvim_get_hl_id_by_name("SnacksPickerDir")
     assert.are.same(vim.fn.synIDattr(snacks_path_dir, "fg", "gui"), aqua)
 
@@ -377,8 +379,11 @@ describe("tests", function()
     -- NeoTree
     local neotree_dirname = vim.api.nvim_get_hl_id_by_name("NeoTreeDirectoryName")
     assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(neotree_dirname), "fg", "gui"), aqua)
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(neotree_dirname), "bold", "gui"), "")
     local neotree_diricon = vim.api.nvim_get_hl_id_by_name("NeoTreeDirectoryIcon")
     assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(neotree_diricon), "fg", "gui"), aqua)
+    local neotree_root = vim.api.nvim_get_hl_id_by_name("NeoTreeRootName")
+    assert.are.same(vim.fn.synIDattr(neotree_root, "bold", "gui"), "1")
 
     local neotree_staged = vim.api.nvim_get_hl_id_by_name("NeoTreeGitStaged")
     assert.are.same(vim.fn.synIDattr(neotree_staged, "fg", "gui"), green)
@@ -394,9 +399,15 @@ describe("tests", function()
 
     -- NvimTree
     local nvimtree_foldericon = vim.api.nvim_get_hl_id_by_name("NvimTreeFolderIcon")
-    assert.are.same(vim.fn.synIDattr(nvimtree_foldericon, "fg", "gui"), aqua)
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(nvimtree_foldericon), "fg", "gui"), aqua)
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(nvimtree_foldericon), "bold", "gui"), "")
     local nvimtree_foldername = vim.api.nvim_get_hl_id_by_name("NvimTreeFolderName")
     assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(nvimtree_foldername), "fg", "gui"), aqua)
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(nvimtree_foldername), "bold", "gui"), "")
+    local nvimtree_openedfolder = vim.api.nvim_get_hl_id_by_name("NvimTreeOpenedFolderName")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(nvimtree_openedfolder), "bold", "gui"), "")
+    local nvimtree_root = vim.api.nvim_get_hl_id_by_name("NvimTreeRootFolder")
+    assert.are.same(vim.fn.synIDattr(nvimtree_root, "bold", "gui"), "1")
 
     local nvimtree_staged = vim.api.nvim_get_hl_id_by_name("NvimTreeGitStaged")
     assert.are.same(vim.fn.synIDattr(nvimtree_staged, "fg", "gui"), green)
@@ -463,5 +474,19 @@ describe("tests", function()
 
     local cw = vim.api.nvim_get_hl_id_by_name("CursorWord")
     assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(cw), "bg", "gui"), "#504945")
+  end)
+
+  it("styles functions as cyan and unbold", function()
+    vim.opt.background = "dark"
+    gruvbox.setup()
+    gruvbox.load("gruvbox_v2")
+
+    local func_id = vim.api.nvim_get_hl_id_by_name("Function")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(func_id), "fg", "gui"), "#8ec07c")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(func_id), "bold", "gui"), "")
+
+    local at_func_id = vim.api.nvim_get_hl_id_by_name("@function")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(at_func_id), "fg", "gui"), "#8ec07c")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(at_func_id), "bold", "gui"), "")
   end)
 end)
