@@ -3,7 +3,7 @@
 ---@field palette GruvboxPalette
 local Gruvbox = {}
 
----@alias Contrast "hard" | "soft" | ""
+---@alias Contrast "regular" | "hard" | "soft" | "" | "medium"
 
 ---@class ItalicConfig
 ---@field strings boolean
@@ -71,164 +71,44 @@ local default_config = {
 
 Gruvbox.config = vim.deepcopy(default_config)
 
--- Dedicated dark background for sidebar panels, error lists, snacks picker, and intellisense
-Gruvbox.bg_dark = "#141617"
--- Standard buffer background (Gruvbox dark hard) for main buffer
-Gruvbox.bg_buffer = "#1d2021"
+local colors_module = require("gruvbox_v2.colors")
 
--- main gruvbox color palette
+-- Master Gruvbox palette containing all standard Gruvbox colors
 ---@class GruvboxPalette
-Gruvbox.palette = {
-  dark0_hard = "#1d2021",
-  dark0 = "#282828",
-  dark0_soft = "#32302f",
-  dark0_darker = "#141617",
-  bg_dark = "#141617",
-  dark1 = "#3c3836",
-  dark2 = "#504945",
-  dark3 = "#665c54",
-  dark4 = "#7c6f64",
-  light0_hard = "#f9f5d7",
-  light0 = "#fbf1c7",
-  light0_soft = "#f2e5bc",
-  light1 = "#ebdbb2",
-  light2 = "#d5c4a1",
-  light3 = "#bdae93",
-  light4 = "#a89984",
-  bright_red = "#fb4934",
-  bright_green = "#b8bb26",
-  bright_yellow = "#fabd2f",
-  bright_blue = "#83a598",
-  bright_purple = "#d3869b",
-  bright_aqua = "#8ec07c",
-  bright_orange = "#fe8019",
-  neutral_red = "#cc241d",
-  neutral_green = "#98971a",
-  neutral_yellow = "#d79921",
-  neutral_blue = "#458588",
-  neutral_purple = "#b16286",
-  neutral_aqua = "#689d6a",
-  neutral_orange = "#d65d0e",
-  faded_red = "#9d0006",
-  faded_green = "#79740e",
-  faded_yellow = "#b57614",
-  faded_blue = "#076678",
-  faded_purple = "#8f3f71",
-  faded_aqua = "#427b58",
-  faded_orange = "#af3a03",
-  dark_red_hard = "#792329",
-  dark_red = "#722529",
-  dark_red_soft = "#7b2c2f",
-  light_red_hard = "#fc9690",
-  light_red = "#fc9487",
-  light_red_soft = "#f78b7f",
-  dark_green_hard = "#5a633a",
-  dark_green = "#62693e",
-  dark_green_soft = "#686d43",
-  light_green_hard = "#d3d6a5",
-  light_green = "#d5d39b",
-  light_green_soft = "#cecb94",
-  dark_aqua_hard = "#3e4934",
-  dark_aqua = "#49503b",
-  dark_aqua_soft = "#525742",
-  light_aqua_hard = "#e6e9c1",
-  light_aqua = "#e8e5b5",
-  light_aqua_soft = "#e1dbac",
-  gray = "#928374",
-}
+Gruvbox.palette = vim.deepcopy(colors_module.base)
 
--- get a hex list of gruvbox colors based on current bg and constrast config
+-- Dedicated dark background for sidebar panels, error lists, snacks picker, and intellisense
+Gruvbox.bg_dark = colors_module.hard.dark.bg_dark
+-- Standard buffer background (Gruvbox dark hard) for main buffer
+Gruvbox.bg_buffer = colors_module.hard.dark.bg_buffer
+
+-- Active resolved colors table
+Gruvbox.colors = colors_module.get(Gruvbox.config.contrast, vim.o.background, Gruvbox.config.palette_overrides)
+
+-- get a hex list of gruvbox colors based on current bg and contrast config
 local function get_colors()
-  local p = Gruvbox.palette
   local config = Gruvbox.config
-
-  for color, hex in pairs(config.palette_overrides) do
-    p[color] = hex
-  end
-
-  local bg = vim.o.background
+  local bg = vim.o.background == "light" and "light" or "dark"
   local contrast = config.contrast
 
-  local color_groups = {
-    dark = {
-      bg_dark = p.bg_dark or "#141617",
-      bg0 = p.dark0,
-      bg1 = p.dark1,
-      bg2 = p.dark2,
-      bg3 = p.dark3,
-      bg4 = p.dark4,
-      fg0 = p.light0,
-      fg1 = p.light1,
-      fg2 = p.light2,
-      fg3 = p.light3,
-      fg4 = p.light4,
-      red = p.bright_red,
-      green = p.bright_green,
-      yellow = p.bright_yellow,
-      blue = p.bright_blue,
-      purple = p.bright_purple,
-      aqua = p.bright_aqua,
-      orange = p.bright_orange,
-      neutral_red = p.neutral_red,
-      neutral_green = p.neutral_green,
-      neutral_yellow = p.neutral_yellow,
-      neutral_blue = p.neutral_blue,
-      neutral_purple = p.neutral_purple,
-      neutral_aqua = p.neutral_aqua,
-      dark_red = p.dark_red,
-      dark_green = p.dark_green,
-      dark_aqua = p.dark_aqua,
-      gray = p.gray,
-    },
-    light = {
-      bg_dark = p.light1,
-      bg0 = p.light0,
-      bg1 = p.light1,
-      bg2 = p.light2,
-      bg3 = p.light3,
-      bg4 = p.light4,
-      fg0 = p.dark0,
-      fg1 = p.dark1,
-      fg2 = p.dark2,
-      fg3 = p.dark3,
-      fg4 = p.dark4,
-      red = p.faded_red,
-      green = p.faded_green,
-      yellow = p.faded_yellow,
-      blue = p.faded_blue,
-      purple = p.faded_purple,
-      aqua = p.faded_aqua,
-      orange = p.faded_orange,
-      neutral_red = p.neutral_red,
-      neutral_green = p.neutral_green,
-      neutral_yellow = p.neutral_yellow,
-      neutral_blue = p.neutral_blue,
-      neutral_purple = p.neutral_purple,
-      neutral_aqua = p.neutral_aqua,
-      dark_red = p.light_red,
-      dark_green = p.light_green,
-      dark_aqua = p.light_aqua,
-      gray = p.gray,
-    },
-  }
-
-  if contrast ~= nil and contrast ~= "" then
-    color_groups[bg].bg0 = p[bg .. "0_" .. contrast]
-    color_groups[bg].dark_red = p[bg .. "_red_" .. contrast]
-    color_groups[bg].dark_green = p[bg .. "_green_" .. contrast]
-    color_groups[bg].dark_aqua = p[bg .. "_aqua_" .. contrast]
+  for color, hex in pairs(config.palette_overrides) do
+    Gruvbox.palette[color] = hex
   end
 
-  color_groups[bg].bg_buffer = color_groups[bg].bg0
-  color_groups[bg].bg_dark = color_groups[bg].bg_dark or (bg == "dark" and (p.bg_dark or "#141617") or p.light1)
+  local colors = colors_module.get(contrast, bg, config.palette_overrides)
 
-  return color_groups[bg]
+  Gruvbox.colors = colors
+  Gruvbox.bg_dark = colors.bg_dark
+  Gruvbox.bg_buffer = colors.bg_buffer or colors.bg0
+
+  return colors
 end
+
 
 local function get_groups()
   local colors = get_colors()
   local config = Gruvbox.config
-  local bg_dark = colors.bg_dark or "#141617"
+  local bg_dark = colors.bg_dark
   local bg_selected = nil
   if not config.transparent_mode then
     bg_selected = colors.bg0
@@ -1752,6 +1632,8 @@ Gruvbox.setup = function(config)
   elseif Gruvbox.config.transparent_mode == "false" or Gruvbox.config.transparent_mode == 0 then
     Gruvbox.config.transparent_mode = false
   end
+  Gruvbox.palette = vim.deepcopy(colors_module.base)
+  get_colors()
 end
 
 --- Helper returning config options
@@ -1776,20 +1658,20 @@ Gruvbox.snacks_opts = {
 
 --- Dynamic Lualine theme for Gruvbox
 Gruvbox.get_lualine_theme = function()
-  local p = Gruvbox.palette
+  local colors = get_colors()
   local is_light = vim.o.background == "light"
-  local bg_dark = is_light and (p.light1 or "#ebdbb2") or (Gruvbox.bg_dark or "#141617")
-  local bg_buffer = is_light and (p.light0_hard or "#f9f5d7") or (Gruvbox.bg_buffer or "#1d2021")
-  local fg_main = is_light and p.dark1 or p.light1
-  local fg_muted = is_light and p.dark4 or p.light4
-  local bg_sub = is_light and p.light2 or p.dark1
+  local bg_dark = colors.bg_dark
+  local bg_buffer = colors.bg_buffer or colors.bg0
+  local fg_main = colors.fg1
+  local fg_muted = colors.fg4
+  local bg_sub = is_light and colors.bg2 or colors.bg1
 
-  local green = is_light and p.faded_green or p.bright_green
-  local blue = is_light and p.faded_blue or p.bright_blue
-  local orange = is_light and p.faded_orange or p.bright_orange
-  local red = is_light and p.faded_red or p.bright_red
-  local yellow = is_light and p.faded_yellow or p.bright_yellow
-  local purple = is_light and p.faded_purple or p.bright_purple
+  local green = colors.green
+  local blue = colors.blue
+  local orange = colors.orange
+  local red = colors.red
+  local yellow = colors.yellow
+  local purple = colors.purple
 
   local function mode_style(accent)
     return {
@@ -1829,8 +1711,8 @@ Gruvbox.get_bufferline_theme = function(user_config)
   return function()
     local colors = get_colors()
     local config = Gruvbox.config
-    local bg_dark = colors.bg_dark or "#141617"
-    local bg_selected = not config.transparent_mode and colors.bg0 or "NONE"
+    local bg_dark = colors.bg_dark
+    local bg_selected = not config.transparent_mode and (colors.bg_buffer or colors.bg0) or "NONE"
 
     local highlights = {
       fill = { bg = bg_dark },
@@ -1945,9 +1827,10 @@ end
 Gruvbox.sync_bufferline = function()
   hook_bufferline()
 
+  local colors = get_colors()
   local sel_hl = vim.api.nvim_get_hl(0, { name = "BufferLineBufferSelected", link = false })
   local vis_hl = vim.api.nvim_get_hl(0, { name = "BufferLineBufferVisible", link = false })
-  local inact_bg = vis_hl.bg and string.format("#%06x", vis_hl.bg) or (Gruvbox.bg_dark or "#141617")
+  local inact_bg = vis_hl.bg and string.format("#%06x", vis_hl.bg) or colors.bg_dark
   local act_bg = sel_hl.bg and string.format("#%06x", sel_hl.bg) or "NONE"
 
   local ok_c, bl_config = pcall(require, "bufferline.config")

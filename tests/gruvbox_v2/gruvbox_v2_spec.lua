@@ -149,7 +149,7 @@ describe("tests", function()
     -- dark bg
     local colors = require("gruvbox_v2").palette
     vim.opt.background = "dark"
-    assert.are.same(vim.g.terminal_color_0, colors.bg_dark or "#141617")
+    assert.are.same(vim.g.terminal_color_0, colors.bg_dark or "#161819")
 
     -- light bg
     clear_term_colors()
@@ -194,11 +194,11 @@ describe("tests", function()
 
     local float_id = vim.api.nvim_get_hl_id_by_name("NormalFloat")
     local float_bg = vim.fn.synIDattr(float_id, "bg", "gui")
-    assert.are.same(float_bg, "#141617")
+    assert.are.same(float_bg, "#161819")
 
     local border_id = vim.api.nvim_get_hl_id_by_name("FloatBorder")
     local border_bg = vim.fn.synIDattr(border_id, "bg", "gui")
-    assert.are.same(border_bg, "#141617")
+    assert.are.same(border_bg, "#161819")
 
     local visual_id = vim.api.nvim_get_hl_id_by_name("Visual")
     local visual_bg = vim.fn.synIDattr(visual_id, "bg", "gui")
@@ -206,7 +206,7 @@ describe("tests", function()
 
     local pmenu_id = vim.api.nvim_get_hl_id_by_name("Pmenu")
     local pmenu_bg = vim.fn.synIDattr(vim.fn.synIDtrans(pmenu_id), "bg", "gui")
-    assert.are.same(pmenu_bg, "#141617")
+    assert.are.same(pmenu_bg, "#161819")
 
     local float_plugins = {
       "TelescopeNormal",
@@ -220,7 +220,7 @@ describe("tests", function()
     for _, group in ipairs(float_plugins) do
       local id = vim.api.nvim_get_hl_id_by_name(group)
       local bg = vim.fn.synIDattr(vim.fn.synIDtrans(id), "bg", "gui")
-      assert.are.same(bg, "#141617")
+      assert.are.same(bg, "#161819")
     end
 
     local sidebar_plugins = {
@@ -233,7 +233,7 @@ describe("tests", function()
     for _, group in ipairs(sidebar_plugins) do
       local id = vim.api.nvim_get_hl_id_by_name(group)
       local bg = vim.fn.synIDattr(vim.fn.synIDtrans(id), "bg", "gui")
-      assert.are.same(bg, "#141617")
+      assert.are.same(bg, "#161819")
     end
 
     assert.are.same(vim.g.colors_name, "gruvbox_v2")
@@ -244,7 +244,7 @@ describe("tests", function()
     local theme = gruvbox.lualine_theme
     assert.is_not_nil(theme)
     assert.is_not_nil(theme.normal)
-    assert.are.same(theme.normal.c.bg, "#141617")
+    assert.are.same(theme.normal.c.bg, "#161819")
     assert.are.same(theme.normal.a.fg, "#1d2021")
 
     -- Test light mode adaptability
@@ -283,23 +283,23 @@ describe("tests", function()
     -- Sidebars, floats, pickers, and statusline must RETAIN solid dark background
     local float_id = vim.api.nvim_get_hl_id_by_name("NormalFloat")
     local float_bg = vim.fn.synIDattr(float_id, "bg", "gui")
-    assert.are.same(float_bg, "#141617")
+    assert.are.same(float_bg, "#161819")
 
     local sb_id = vim.api.nvim_get_hl_id_by_name("NormalSB")
     local sb_bg = vim.fn.synIDattr(sb_id, "bg", "gui")
-    assert.are.same(sb_bg, "#141617")
+    assert.are.same(sb_bg, "#161819")
 
     local status_id = vim.api.nvim_get_hl_id_by_name("StatusLine")
     local status_bg = vim.fn.synIDattr(status_id, "bg", "gui")
-    assert.are.same(status_bg, "#141617")
+    assert.are.same(status_bg, "#161819")
 
     local pmenu_id = vim.api.nvim_get_hl_id_by_name("Pmenu")
     local pmenu_bg = vim.fn.synIDattr(vim.fn.synIDtrans(pmenu_id), "bg", "gui")
-    assert.are.same(pmenu_bg, "#141617")
+    assert.are.same(pmenu_bg, "#161819")
 
     local picker_id = vim.api.nvim_get_hl_id_by_name("SnacksPickerBox")
     local picker_bg = vim.fn.synIDattr(picker_id, "bg", "gui")
-    assert.are.same(picker_bg, "#141617")
+    assert.are.same(picker_bg, "#161819")
   end)
 
   it("supports transparent = true as an alias for transparent_mode", function()
@@ -311,9 +311,9 @@ describe("tests", function()
     local theme_v2 = require("lualine.themes.gruvbox_v2")
     assert.is_not_nil(theme_v2)
     assert.is_not_nil(theme_v2.normal)
-    assert.are.same(theme_v2.normal.c.bg, "#141617")
+    assert.are.same(theme_v2.normal.c.bg, "#161819")
     assert.is_not_nil(theme_v2.terminal)
-    assert.are.same(theme_v2.terminal.c.bg, "#141617")
+    assert.are.same(theme_v2.terminal.c.bg, "#161819")
   end)
 
   it("provides modern Neovim ecosystem highlights (LSP, Snacks, Flash, Ibl, Noice)", function()
@@ -333,7 +333,7 @@ describe("tests", function()
     assert.is_not_nil(vim.fn.synIDattr(ibl_id, "fg", "gui"))
 
     local noice_id = vim.api.nvim_get_hl_id_by_name("NoicePopup")
-    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(noice_id), "bg", "gui"), "#141617")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(noice_id), "bg", "gui"), "#161819")
   end)
 
   it("styles directories and files wrt git status (Snacks, NeoTree, NvimTree, MiniFiles) following Catppuccin scheme", function()
@@ -488,13 +488,13 @@ describe("tests", function()
 
     -- BufferLine
     local buf_fill = vim.api.nvim_get_hl_id_by_name("BufferLineFill")
-    assert.are.same(vim.fn.synIDattr(buf_fill, "bg", "gui"), "#141617")
+    assert.are.same(vim.fn.synIDattr(buf_fill, "bg", "gui"), "#161819")
 
     local buf_bg = vim.api.nvim_get_hl_id_by_name("BufferLineBackground")
-    assert.are.same(vim.fn.synIDattr(buf_bg, "bg", "gui"), "#141617")
+    assert.are.same(vim.fn.synIDattr(buf_bg, "bg", "gui"), "#161819")
 
     local buf_vis = vim.api.nvim_get_hl_id_by_name("BufferLineBufferVisible")
-    assert.are.same(vim.fn.synIDattr(buf_vis, "bg", "gui"), "#141617")
+    assert.are.same(vim.fn.synIDattr(buf_vis, "bg", "gui"), "#161819")
 
     local buf_sel = vim.api.nvim_get_hl_id_by_name("BufferLineBufferSelected")
     assert.are.same(vim.fn.synIDattr(buf_sel, "bg", "gui"), "#1d2021")
@@ -521,9 +521,9 @@ describe("tests", function()
     local bl_theme_fn = gruvbox.get_bufferline_theme()
     assert.is_function(bl_theme_fn)
     local bl_theme = bl_theme_fn()
-    assert.are.same(bl_theme.background.bg, "#141617")
-    assert.are.same(bl_theme.buffer_visible.bg, "#141617")
-    assert.are.same(bl_theme.fill.bg, "#141617")
+    assert.are.same(bl_theme.background.bg, "#161819")
+    assert.are.same(bl_theme.buffer_visible.bg, "#161819")
+    assert.are.same(bl_theme.fill.bg, "#161819")
     assert.are.same(bl_theme.buffer_selected.bg, "#1d2021")
 
     -- metatable accessor
@@ -547,8 +547,8 @@ describe("tests", function()
       return string.format("#%06x", val)
     end
 
-    assert.are.same(hex_col(inact_icon.bg), "#141617")
-    assert.are.same(hex_col(mini_inact_icon.bg), "#141617")
+    assert.are.same(hex_col(inact_icon.bg), "#161819")
+    assert.are.same(hex_col(mini_inact_icon.bg), "#161819")
     assert.are.same(hex_col(sel_icon.bg), "#1d2021")
     assert.are.same(hex_col(mini_sel_icon.bg), "#1d2021")
 
@@ -565,7 +565,7 @@ describe("tests", function()
 
     local inact_icon_t = vim.api.nvim_get_hl(0, { name = "BufferLineDevIconLua" })
     local sel_icon_t = vim.api.nvim_get_hl(0, { name = "BufferLineDevIconLuaSelected" })
-    assert.are.same(hex_col(inact_icon_t.bg), "#141617")
+    assert.are.same(hex_col(inact_icon_t.bg), "#161819")
     assert.is_nil(sel_icon_t.bg)
 
     -- 3. Barbar highlights consistency
@@ -575,23 +575,23 @@ describe("tests", function()
 
     local barb_vis = vim.api.nvim_get_hl(0, { name = "BufferVisible" })
     local barb_vis_icon = vim.api.nvim_get_hl(0, { name = "BufferVisibleIcon" })
-    assert.are.same(hex_col(barb_vis.bg), "#141617")
-    assert.are.same(hex_col(barb_vis_icon.bg), "#141617")
+    assert.are.same(hex_col(barb_vis.bg), "#161819")
+    assert.are.same(hex_col(barb_vis_icon.bg), "#161819")
 
     local barb_inact = vim.api.nvim_get_hl(0, { name = "BufferInactive" })
     local barb_inact_icon = vim.api.nvim_get_hl(0, { name = "BufferInactiveIcon" })
-    assert.are.same(hex_col(barb_inact.bg), "#141617")
-    assert.are.same(hex_col(barb_inact_icon.bg), "#141617")
+    assert.are.same(hex_col(barb_inact.bg), "#161819")
+    assert.are.same(hex_col(barb_inact_icon.bg), "#161819")
 
     -- 4. TabLine and MiniTabline consistency
     local tab_fill = vim.api.nvim_get_hl(0, { name = "TabLineFill" })
-    assert.are.same(hex_col(tab_fill.bg), "#141617")
+    assert.are.same(hex_col(tab_fill.bg), "#161819")
 
     local mini_hidden = vim.api.nvim_get_hl(0, { name = "MiniTablineHidden" })
-    assert.are.same(hex_col(mini_hidden.bg), "#141617")
+    assert.are.same(hex_col(mini_hidden.bg), "#161819")
 
     local mini_vis = vim.api.nvim_get_hl(0, { name = "MiniTablineVisible" })
-    assert.are.same(hex_col(mini_vis.bg), "#141617")
+    assert.are.same(hex_col(mini_vis.bg), "#161819")
   end)
 
   it("styles word under cursor highlights subtly like Catppuccin with zero external dependencies", function()
@@ -680,5 +680,291 @@ describe("tests", function()
     assert.are.same(vim.fn.synIDattr(syn_trans, "bg", "gui"), "")
     assert.are.same(vim.fn.synIDattr(syn_trans, "undercurl", "gui"), "1")
     assert.are.same(vim.fn.synIDattr(syn_trans, "sp", "gui"), "#fb4934")
+  end)
+
+  it("supports regular contrast with original medium Gruvbox background and dimmed sidebars", function()
+    -- 1. Dark mode
+    vim.opt.background = "dark"
+    gruvbox.setup({ contrast = "regular" })
+    gruvbox.load("gruvbox_v2")
+
+    assert.are.same(gruvbox.config.contrast, "regular")
+
+    local normal_id = vim.api.nvim_get_hl_id_by_name("Normal")
+    local normal_bg = vim.fn.synIDattr(normal_id, "bg", "gui")
+    assert.are.same(normal_bg, "#282828") -- original medium Gruvbox dark background
+
+    local float_id = vim.api.nvim_get_hl_id_by_name("NormalFloat")
+    local float_bg = vim.fn.synIDattr(float_id, "bg", "gui")
+    assert.are.same(float_bg, "#212324") -- dimmed sidebar / float background for regular contrast
+
+    local sb_id = vim.api.nvim_get_hl_id_by_name("NormalSB")
+    local sb_bg = vim.fn.synIDattr(sb_id, "bg", "gui")
+    assert.are.same(sb_bg, "#212324")
+
+    local pmenu_id = vim.api.nvim_get_hl_id_by_name("Pmenu")
+    local pmenu_bg = vim.fn.synIDattr(vim.fn.synIDtrans(pmenu_id), "bg", "gui")
+    assert.are.same(pmenu_bg, "#212324")
+
+    local status_id = vim.api.nvim_get_hl_id_by_name("StatusLine")
+    local status_bg = vim.fn.synIDattr(status_id, "bg", "gui")
+    assert.are.same(status_bg, "#212324")
+
+    -- Diff colors for regular contrast
+    local diff_del = vim.api.nvim_get_hl_id_by_name("DiffDelete")
+    assert.are.same(vim.fn.synIDattr(diff_del, "bg", "gui"), "#722529")
+    local diff_add = vim.api.nvim_get_hl_id_by_name("DiffAdd")
+    assert.are.same(vim.fn.synIDattr(diff_add, "bg", "gui"), "#62693e")
+    local diff_chg = vim.api.nvim_get_hl_id_by_name("DiffChange")
+    assert.are.same(vim.fn.synIDattr(diff_chg, "bg", "gui"), "#49503b")
+
+    -- Lualine theme adapts to regular contrast
+    local theme = gruvbox.get_lualine_theme()
+    assert.are.same(theme.normal.a.fg, "#282828")
+    assert.are.same(theme.normal.c.bg, "#212324")
+
+    -- BufferLine theme adapts to regular contrast
+    local bl_theme = gruvbox.get_bufferline_theme()()
+    assert.are.same(bl_theme.buffer_selected.bg, "#282828")
+    assert.are.same(bl_theme.fill.bg, "#212324")
+
+    -- 2. Light mode
+    vim.opt.background = "light"
+    gruvbox.setup({ contrast = "regular" })
+    gruvbox.load("gruvbox_v2")
+
+    local light_normal_id = vim.api.nvim_get_hl_id_by_name("Normal")
+    local light_normal_bg = vim.fn.synIDattr(light_normal_id, "bg", "gui")
+    assert.are.same(light_normal_bg, "#fbf1c7") -- original medium Gruvbox light background
+
+    local light_diff_del = vim.api.nvim_get_hl_id_by_name("DiffDelete")
+    assert.are.same(vim.fn.synIDattr(light_diff_del, "bg", "gui"), "#fc9487")
+
+    local light_theme = gruvbox.get_lualine_theme()
+    assert.are.same(light_theme.normal.a.fg, "#fbf1c7")
+
+    vim.opt.background = "dark"
+  end)
+
+  it("supports soft contrast with warmer background and dimmed sidebars", function()
+    -- 1. Dark mode
+    vim.opt.background = "dark"
+    gruvbox.setup({ contrast = "soft" })
+    gruvbox.load("gruvbox_v2")
+
+    assert.are.same(gruvbox.config.contrast, "soft")
+
+    local normal_id = vim.api.nvim_get_hl_id_by_name("Normal")
+    local normal_bg = vim.fn.synIDattr(normal_id, "bg", "gui")
+    assert.are.same(normal_bg, "#32302f") -- soft Gruvbox dark background
+
+    local float_id = vim.api.nvim_get_hl_id_by_name("NormalFloat")
+    local float_bg = vim.fn.synIDattr(float_id, "bg", "gui")
+    assert.are.same(float_bg, "#282828") -- dimmed sidebar / float background for soft contrast
+
+    -- Diff colors for soft contrast
+    local diff_del = vim.api.nvim_get_hl_id_by_name("DiffDelete")
+    assert.are.same(vim.fn.synIDattr(diff_del, "bg", "gui"), "#7b2c2f")
+    local diff_add = vim.api.nvim_get_hl_id_by_name("DiffAdd")
+    assert.are.same(vim.fn.synIDattr(diff_add, "bg", "gui"), "#686d43")
+
+    -- 2. Light mode
+    vim.opt.background = "light"
+    gruvbox.setup({ contrast = "soft" })
+    gruvbox.load("gruvbox_v2")
+
+    local light_normal_id = vim.api.nvim_get_hl_id_by_name("Normal")
+    assert.are.same(vim.fn.synIDattr(light_normal_id, "bg", "gui"), "#f2e5bc")
+
+    local light_diff_del = vim.api.nvim_get_hl_id_by_name("DiffDelete")
+    assert.are.same(vim.fn.synIDattr(light_diff_del, "bg", "gui"), "#f78b7f")
+
+    vim.opt.background = "dark"
+  end)
+
+  it("supports hard contrast with deepest background and darkest sidebars", function()
+    -- 1. Dark mode
+    vim.opt.background = "dark"
+    gruvbox.setup({ contrast = "hard" })
+    gruvbox.load("gruvbox_v2")
+
+    assert.are.same(gruvbox.config.contrast, "hard")
+
+    local normal_id = vim.api.nvim_get_hl_id_by_name("Normal")
+    assert.are.same(vim.fn.synIDattr(normal_id, "bg", "gui"), "#1d2021")
+
+    local float_id = vim.api.nvim_get_hl_id_by_name("NormalFloat")
+    assert.are.same(vim.fn.synIDattr(float_id, "bg", "gui"), "#161819")
+
+    local diff_del = vim.api.nvim_get_hl_id_by_name("DiffDelete")
+    assert.are.same(vim.fn.synIDattr(diff_del, "bg", "gui"), "#792329")
+
+    -- 2. Light mode
+    vim.opt.background = "light"
+    gruvbox.setup({ contrast = "hard" })
+    gruvbox.load("gruvbox_v2")
+
+    local light_normal_id = vim.api.nvim_get_hl_id_by_name("Normal")
+    assert.are.same(vim.fn.synIDattr(light_normal_id, "bg", "gui"), "#f9f5d7")
+
+    local light_diff_del = vim.api.nvim_get_hl_id_by_name("DiffDelete")
+    assert.are.same(vim.fn.synIDattr(light_diff_del, "bg", "gui"), "#fc9690")
+
+    vim.opt.background = "dark"
+  end)
+
+  it("handles contrast aliases 'medium' and empty string '' as regular", function()
+    vim.opt.background = "dark"
+
+    gruvbox.setup({ contrast = "medium" })
+    gruvbox.load("gruvbox_v2")
+    local normal_id = vim.api.nvim_get_hl_id_by_name("Normal")
+    assert.are.same(vim.fn.synIDattr(normal_id, "bg", "gui"), "#282828")
+
+    gruvbox.setup({ contrast = "" })
+    gruvbox.load("gruvbox_v2")
+    local normal_id2 = vim.api.nvim_get_hl_id_by_name("Normal")
+    assert.are.same(vim.fn.synIDattr(normal_id2, "bg", "gui"), "#282828")
+  end)
+
+  it("exports modular color files for direct tinkering (regular, hard, soft)", function()
+    local hard_mod = require("gruvbox_v2.colors.hard")
+    assert.is_table(hard_mod.dark)
+    assert.is_table(hard_mod.light)
+    assert.are.same(hard_mod.dark.bg0, "#1d2021")
+    assert.are.same(hard_mod.dark.bg_dark, "#161819")
+    assert.are.same(hard_mod.light.bg0, "#f9f5d7")
+    assert.are.same(hard_mod.light.bg_dark, "#ebdbb2")
+
+    local regular_mod = require("gruvbox_v2.colors.regular")
+    assert.is_table(regular_mod.dark)
+    assert.is_table(regular_mod.light)
+    assert.are.same(regular_mod.dark.bg0, "#282828")
+    assert.are.same(regular_mod.dark.bg_dark, "#212324")
+    assert.are.same(regular_mod.light.bg0, "#fbf1c7")
+    assert.are.same(regular_mod.light.bg_dark, "#f2e5bc")
+
+    local soft_mod = require("gruvbox_v2.colors.soft")
+    assert.is_table(soft_mod.dark)
+    assert.is_table(soft_mod.light)
+    assert.are.same(soft_mod.dark.bg0, "#32302f")
+    assert.are.same(soft_mod.dark.bg_dark, "#282828")
+    assert.are.same(soft_mod.light.bg0, "#f2e5bc")
+    assert.are.same(soft_mod.light.bg_dark, "#ebdbb2")
+  end)
+
+  it("works comprehensively for light mode across syntax, UI, treesitter, diagnostics, and tablines", function()
+    vim.opt.background = "light"
+    gruvbox.setup({ contrast = "regular" })
+    gruvbox.load("gruvbox_v2")
+
+    -- 1. Base editor highlights
+    local normal_id = vim.api.nvim_get_hl_id_by_name("Normal")
+    assert.are.same(vim.fn.synIDattr(normal_id, "fg", "gui"), "#3c3836")
+    assert.are.same(vim.fn.synIDattr(normal_id, "bg", "gui"), "#fbf1c7")
+
+    local float_id = vim.api.nvim_get_hl_id_by_name("NormalFloat")
+    assert.are.same(vim.fn.synIDattr(float_id, "fg", "gui"), "#3c3836")
+    assert.are.same(vim.fn.synIDattr(float_id, "bg", "gui"), "#f2e5bc")
+
+    local float_border_id = vim.api.nvim_get_hl_id_by_name("FloatBorder")
+    assert.are.same(vim.fn.synIDattr(float_border_id, "fg", "gui"), "#d5c4a1")
+    assert.are.same(vim.fn.synIDattr(float_border_id, "bg", "gui"), "#f2e5bc")
+
+    local sb_id = vim.api.nvim_get_hl_id_by_name("NormalSB")
+    assert.are.same(vim.fn.synIDattr(sb_id, "fg", "gui"), "#3c3836")
+    assert.are.same(vim.fn.synIDattr(sb_id, "bg", "gui"), "#f2e5bc")
+
+    local status_id = vim.api.nvim_get_hl_id_by_name("StatusLine")
+    assert.are.same(vim.fn.synIDattr(status_id, "fg", "gui"), "#3c3836")
+    assert.are.same(vim.fn.synIDattr(status_id, "bg", "gui"), "#f2e5bc")
+
+    local cursorline_id = vim.api.nvim_get_hl_id_by_name("CursorLine")
+    assert.are.same(vim.fn.synIDattr(cursorline_id, "bg", "gui"), "#ebdbb2")
+
+    local visual_id = vim.api.nvim_get_hl_id_by_name("Visual")
+    assert.are.same(vim.fn.synIDattr(visual_id, "bg", "gui"), "#d5c4a1")
+
+    local pmenu_id = vim.api.nvim_get_hl_id_by_name("Pmenu")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(pmenu_id), "bg", "gui"), "#f2e5bc")
+
+    -- 2. Syntax & language entities (faded Gruvbox tones for light mode)
+    local fn_id = vim.api.nvim_get_hl_id_by_name("Function")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(fn_id), "fg", "gui"), "#427b58")
+
+    local kw_id = vim.api.nvim_get_hl_id_by_name("Keyword")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(kw_id), "fg", "gui"), "#9d0006")
+
+    local str_id = vim.api.nvim_get_hl_id_by_name("String")
+    assert.are.same(vim.fn.synIDattr(str_id, "fg", "gui"), "#79740e")
+
+    local type_id = vim.api.nvim_get_hl_id_by_name("Type")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(type_id), "fg", "gui"), "#b57614")
+
+    local const_id = vim.api.nvim_get_hl_id_by_name("Constant")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(const_id), "fg", "gui"), "#8f3f71")
+
+    local ident_id = vim.api.nvim_get_hl_id_by_name("Identifier")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(ident_id), "fg", "gui"), "#076678")
+
+    local cmt_id = vim.api.nvim_get_hl_id_by_name("Comment")
+    assert.are.same(vim.fn.synIDattr(cmt_id, "fg", "gui"), "#928374")
+
+    local err_id = vim.api.nvim_get_hl_id_by_name("Error")
+    assert.are.same(vim.fn.synIDattr(err_id, "fg", "gui"), "#9d0006")
+    assert.are.same(vim.fn.synIDattr(err_id, "sp", "gui"), "#9d0006")
+    assert.are.same(vim.fn.synIDattr(err_id, "undercurl", "gui"), "1")
+
+    -- 3. File explorer git indicators in light mode
+    local snacks_staged = vim.api.nvim_get_hl_id_by_name("SnacksPickerGitStatusStaged")
+    assert.are.same(vim.fn.synIDattr(snacks_staged, "fg", "gui"), "#79740e")
+
+    local snacks_mod = vim.api.nvim_get_hl_id_by_name("SnacksPickerGitStatusModified")
+    assert.are.same(vim.fn.synIDattr(snacks_mod, "fg", "gui"), "#b57614")
+
+    -- 4. BufferLine & Lualine in light mode
+    local bl_theme = gruvbox.get_bufferline_theme()()
+    assert.are.same(bl_theme.fill.bg, "#f2e5bc")
+    assert.are.same(bl_theme.background.bg, "#f2e5bc")
+    assert.are.same(bl_theme.buffer_visible.bg, "#f2e5bc")
+    assert.are.same(bl_theme.buffer_selected.bg, "#fbf1c7")
+    assert.are.same(bl_theme.buffer_selected.fg, "#3c3836")
+
+    local lualine_theme = gruvbox.get_lualine_theme()
+    assert.are.same(lualine_theme.normal.a.bg, "#79740e")
+    assert.are.same(lualine_theme.normal.a.fg, "#fbf1c7")
+    assert.are.same(lualine_theme.normal.b.bg, "#d5c4a1")
+    assert.are.same(lualine_theme.normal.b.fg, "#3c3836")
+    assert.are.same(lualine_theme.normal.c.bg, "#f2e5bc")
+    assert.are.same(lualine_theme.normal.c.fg, "#7c6f64")
+
+    -- 5. Transparent mode in light mode
+    gruvbox.setup({ contrast = "regular", transparent = true })
+    gruvbox.load("gruvbox_v2")
+
+    local trans_normal = vim.api.nvim_get_hl_id_by_name("Normal")
+    assert.are.same(vim.fn.synIDattr(trans_normal, "bg", "gui"), "")
+    -- Sidebar and float backgrounds remain solid cream
+    local trans_float = vim.api.nvim_get_hl_id_by_name("NormalFloat")
+    assert.are.same(vim.fn.synIDattr(trans_float, "bg", "gui"), "#f2e5bc")
+    local trans_sb = vim.api.nvim_get_hl_id_by_name("NormalSB")
+    assert.are.same(vim.fn.synIDattr(trans_sb, "bg", "gui"), "#f2e5bc")
+
+    -- 6. Terminal colors in light mode
+    clear_term_colors()
+    gruvbox.setup({ contrast = "regular", terminal_colors = true })
+    gruvbox.load("gruvbox_v2")
+
+    assert.are.same(vim.g.terminal_color_0, "#fbf1c7")
+    assert.are.same(vim.g.terminal_color_1, "#cc241d")
+    assert.are.same(vim.g.terminal_color_2, "#98971a")
+    assert.are.same(vim.g.terminal_color_9, "#9d0006")
+    assert.are.same(vim.g.terminal_color_10, "#79740e")
+    assert.are.same(vim.g.terminal_color_15, "#3c3836")
+
+    -- Reset to dark mode
+    vim.opt.background = "dark"
+    gruvbox.setup()
+    gruvbox.load("gruvbox_v2")
   end)
 end)

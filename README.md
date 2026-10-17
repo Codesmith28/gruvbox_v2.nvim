@@ -7,7 +7,7 @@
 
 ### ✨ Why gruvbox_v2?
 
-- 🌑 **Darkened Floats & Sidebars (`#141617`)** — Floating windows, pickers, completion popups, and sidebars use a dedicated dark background for instant visual hierarchy against the `#1d2021` buffer.
+- 🌑 **Darkened Floats & Sidebars (`#161819`)** — Floating windows, pickers, completion popups, and sidebars use a dedicated dark background for instant visual hierarchy against the `#1d2021` buffer.
 - 🪟 **Buffer-Only Transparency (`transparent = true`)** — Only your editor buffer becomes transparent; popups, pickers, and sidebar panels maintain their solid dark backdrop so they never bleed into your terminal.
 - 📑 **Consistent Tab Bar & Icon Backgrounds** — Tab bars (`bufferline.nvim`, `barbar.nvim`, `mini.tabline`, native `TabLine`) keep buffer and file icons (`mini.icons`, `nvim-web-devicons`) perfectly seamless with their enclosing active and inactive tabs in both transparent and non-transparent modes.
 - 📂 **Git-Reactive File Trees & Signs (Catppuccin Style)** — Unstaged modified files and hunks appear in crisp yellow, staged files in green, untracked in subtle gray, deleted in red, and staged hunks automatically dimmed in GitSigns. Works seamlessly across Snacks Explorer, GitSigns, Neo-tree, Nvim-tree, Diffview, and Neovim standard diffs.
@@ -26,7 +26,7 @@
   lazy = false,
   priority = 1000,
   opts = {
-    contrast = "hard",     -- "hard" (default), "soft", or ""
+    contrast = "hard",     -- "hard" (default), "regular", or "soft"
     transparent = false,   -- set to true for buffer-only transparency
   },
   config = function(_, opts)
@@ -40,11 +40,23 @@
 
 ### ⚙️ Customization
 
+#### Contrasts
+Choose from 3 distinct contrast modes:
+- `"regular"` — The original classic Gruvbox contrast (`#282828` buffer) with dimmed floats & sidebars (`#212324`).
+- `"hard"` (default) — Deep dark high-contrast Gruvbox (`#1d2021` buffer, `#161819` floats/sidebars).
+- `"soft"` — Warm, gentle Gruvbox (`#32302f` buffer, `#282828` floats/sidebars).
+
+#### Modular Color Architecture
+All color definitions are cleanly separated into dedicated contrast files for easy tinkering:
+- [`lua/gruvbox_v2/colors/regular.lua`](lua/gruvbox_v2/colors/regular.lua)
+- [`lua/gruvbox_v2/colors/hard.lua`](lua/gruvbox_v2/colors/hard.lua)
+- [`lua/gruvbox_v2/colors/soft.lua`](lua/gruvbox_v2/colors/soft.lua)
+
 Customize palette colors or override any highlight group with ease:
 
 ```lua
 require("gruvbox_v2").setup({
-  contrast = "hard",
+  contrast = "regular", -- "regular", "hard", or "soft"
   transparent = true,
   palette_overrides = {
     bg_dark = "#101213", -- custom float / sidebar background
