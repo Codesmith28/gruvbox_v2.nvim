@@ -1,10 +1,10 @@
 --- Gruvbox v2 Regular (Medium) Contrast Colors
---- Original classic Gruvbox background (#282828) with dimmed floats/sidebars (#1d2021)
+--- Original classic Gruvbox background (#282828) with dimmed floats/sidebars (#212324)
 
 local M = {
   dark = {
     -- Backgrounds & dark shades
-    bg_dark = "#1d2021",
+    bg_dark = "#212324",
     bg_buffer = "#282828",
     bg0 = "#282828",
     bg1 = "#3c3836",
@@ -55,7 +55,7 @@ local M = {
   },
   light = {
     -- Backgrounds & light shades
-    bg_dark = "#ebdbb2",
+    bg_dark = "#f2e5bc",
     bg_buffer = "#fbf1c7",
     bg0 = "#fbf1c7",
     bg1 = "#ebdbb2",

@@ -1,10 +1,10 @@
 --- Gruvbox v2 Hard Contrast Colors
---- High-contrast dark background (#1d2021) with dedicated darkened floats/sidebars (#141617)
+--- High-contrast dark background (#1d2021) with dedicated darkened floats/sidebars (#161819)
 
 local M = {
   dark = {
     -- Backgrounds & dark shades
-    bg_dark = "#141617",
+    bg_dark = "#161819",
     bg_buffer = "#1d2021",
     bg0 = "#1d2021",
     bg1 = "#3c3836",

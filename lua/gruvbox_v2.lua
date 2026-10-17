@@ -108,7 +108,7 @@ end
 local function get_groups()
   local colors = get_colors()
   local config = Gruvbox.config
-  local bg_dark = colors.bg_dark or "#141617"
+  local bg_dark = colors.bg_dark
   local bg_selected = nil
   if not config.transparent_mode then
     bg_selected = colors.bg0
@@ -1827,9 +1827,10 @@ end
 Gruvbox.sync_bufferline = function()
   hook_bufferline()
 
+  local colors = get_colors()
   local sel_hl = vim.api.nvim_get_hl(0, { name = "BufferLineBufferSelected", link = false })
   local vis_hl = vim.api.nvim_get_hl(0, { name = "BufferLineBufferVisible", link = false })
-  local inact_bg = vis_hl.bg and string.format("#%06x", vis_hl.bg) or (Gruvbox.bg_dark or "#141617")
+  local inact_bg = vis_hl.bg and string.format("#%06x", vis_hl.bg) or colors.bg_dark
   local act_bg = sel_hl.bg and string.format("#%06x", sel_hl.bg) or "NONE"
 
   local ok_c, bl_config = pcall(require, "bufferline.config")
