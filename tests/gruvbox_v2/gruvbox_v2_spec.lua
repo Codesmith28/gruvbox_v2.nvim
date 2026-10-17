@@ -681,4 +681,169 @@ describe("tests", function()
     assert.are.same(vim.fn.synIDattr(syn_trans, "undercurl", "gui"), "1")
     assert.are.same(vim.fn.synIDattr(syn_trans, "sp", "gui"), "#fb4934")
   end)
+
+  it("supports regular contrast with original medium Gruvbox background and dimmed sidebars", function()
+    -- 1. Dark mode
+    vim.opt.background = "dark"
+    gruvbox.setup({ contrast = "regular" })
+    gruvbox.load("gruvbox_v2")
+
+    assert.are.same(gruvbox.config.contrast, "regular")
+
+    local normal_id = vim.api.nvim_get_hl_id_by_name("Normal")
+    local normal_bg = vim.fn.synIDattr(normal_id, "bg", "gui")
+    assert.are.same(normal_bg, "#282828") -- original medium Gruvbox dark background
+
+    local float_id = vim.api.nvim_get_hl_id_by_name("NormalFloat")
+    local float_bg = vim.fn.synIDattr(float_id, "bg", "gui")
+    assert.are.same(float_bg, "#1d2021") -- dimmed sidebar / float background for regular contrast
+
+    local sb_id = vim.api.nvim_get_hl_id_by_name("NormalSB")
+    local sb_bg = vim.fn.synIDattr(sb_id, "bg", "gui")
+    assert.are.same(sb_bg, "#1d2021")
+
+    local pmenu_id = vim.api.nvim_get_hl_id_by_name("Pmenu")
+    local pmenu_bg = vim.fn.synIDattr(vim.fn.synIDtrans(pmenu_id), "bg", "gui")
+    assert.are.same(pmenu_bg, "#1d2021")
+
+    local status_id = vim.api.nvim_get_hl_id_by_name("StatusLine")
+    local status_bg = vim.fn.synIDattr(status_id, "bg", "gui")
+    assert.are.same(status_bg, "#1d2021")
+
+    -- Diff colors for regular contrast
+    local diff_del = vim.api.nvim_get_hl_id_by_name("DiffDelete")
+    assert.are.same(vim.fn.synIDattr(diff_del, "bg", "gui"), "#722529")
+    local diff_add = vim.api.nvim_get_hl_id_by_name("DiffAdd")
+    assert.are.same(vim.fn.synIDattr(diff_add, "bg", "gui"), "#62693e")
+    local diff_chg = vim.api.nvim_get_hl_id_by_name("DiffChange")
+    assert.are.same(vim.fn.synIDattr(diff_chg, "bg", "gui"), "#49503b")
+
+    -- Lualine theme adapts to regular contrast
+    local theme = gruvbox.get_lualine_theme()
+    assert.are.same(theme.normal.a.fg, "#282828")
+    assert.are.same(theme.normal.c.bg, "#1d2021")
+
+    -- BufferLine theme adapts to regular contrast
+    local bl_theme = gruvbox.get_bufferline_theme()()
+    assert.are.same(bl_theme.buffer_selected.bg, "#282828")
+    assert.are.same(bl_theme.fill.bg, "#1d2021")
+
+    -- 2. Light mode
+    vim.opt.background = "light"
+    gruvbox.setup({ contrast = "regular" })
+    gruvbox.load("gruvbox_v2")
+
+    local light_normal_id = vim.api.nvim_get_hl_id_by_name("Normal")
+    local light_normal_bg = vim.fn.synIDattr(light_normal_id, "bg", "gui")
+    assert.are.same(light_normal_bg, "#fbf1c7") -- original medium Gruvbox light background
+
+    local light_diff_del = vim.api.nvim_get_hl_id_by_name("DiffDelete")
+    assert.are.same(vim.fn.synIDattr(light_diff_del, "bg", "gui"), "#fc9487")
+
+    local light_theme = gruvbox.get_lualine_theme()
+    assert.are.same(light_theme.normal.a.fg, "#fbf1c7")
+
+    vim.opt.background = "dark"
+  end)
+
+  it("supports soft contrast with warmer background and dimmed sidebars", function()
+    -- 1. Dark mode
+    vim.opt.background = "dark"
+    gruvbox.setup({ contrast = "soft" })
+    gruvbox.load("gruvbox_v2")
+
+    assert.are.same(gruvbox.config.contrast, "soft")
+
+    local normal_id = vim.api.nvim_get_hl_id_by_name("Normal")
+    local normal_bg = vim.fn.synIDattr(normal_id, "bg", "gui")
+    assert.are.same(normal_bg, "#32302f") -- soft Gruvbox dark background
+
+    local float_id = vim.api.nvim_get_hl_id_by_name("NormalFloat")
+    local float_bg = vim.fn.synIDattr(float_id, "bg", "gui")
+    assert.are.same(float_bg, "#282828") -- dimmed sidebar / float background for soft contrast
+
+    -- Diff colors for soft contrast
+    local diff_del = vim.api.nvim_get_hl_id_by_name("DiffDelete")
+    assert.are.same(vim.fn.synIDattr(diff_del, "bg", "gui"), "#7b2c2f")
+    local diff_add = vim.api.nvim_get_hl_id_by_name("DiffAdd")
+    assert.are.same(vim.fn.synIDattr(diff_add, "bg", "gui"), "#686d43")
+
+    -- 2. Light mode
+    vim.opt.background = "light"
+    gruvbox.setup({ contrast = "soft" })
+    gruvbox.load("gruvbox_v2")
+
+    local light_normal_id = vim.api.nvim_get_hl_id_by_name("Normal")
+    assert.are.same(vim.fn.synIDattr(light_normal_id, "bg", "gui"), "#f2e5bc")
+
+    local light_diff_del = vim.api.nvim_get_hl_id_by_name("DiffDelete")
+    assert.are.same(vim.fn.synIDattr(light_diff_del, "bg", "gui"), "#f78b7f")
+
+    vim.opt.background = "dark"
+  end)
+
+  it("supports hard contrast with deepest background and darkest sidebars", function()
+    -- 1. Dark mode
+    vim.opt.background = "dark"
+    gruvbox.setup({ contrast = "hard" })
+    gruvbox.load("gruvbox_v2")
+
+    assert.are.same(gruvbox.config.contrast, "hard")
+
+    local normal_id = vim.api.nvim_get_hl_id_by_name("Normal")
+    assert.are.same(vim.fn.synIDattr(normal_id, "bg", "gui"), "#1d2021")
+
+    local float_id = vim.api.nvim_get_hl_id_by_name("NormalFloat")
+    assert.are.same(vim.fn.synIDattr(float_id, "bg", "gui"), "#141617")
+
+    local diff_del = vim.api.nvim_get_hl_id_by_name("DiffDelete")
+    assert.are.same(vim.fn.synIDattr(diff_del, "bg", "gui"), "#792329")
+
+    -- 2. Light mode
+    vim.opt.background = "light"
+    gruvbox.setup({ contrast = "hard" })
+    gruvbox.load("gruvbox_v2")
+
+    local light_normal_id = vim.api.nvim_get_hl_id_by_name("Normal")
+    assert.are.same(vim.fn.synIDattr(light_normal_id, "bg", "gui"), "#f9f5d7")
+
+    local light_diff_del = vim.api.nvim_get_hl_id_by_name("DiffDelete")
+    assert.are.same(vim.fn.synIDattr(light_diff_del, "bg", "gui"), "#fc9690")
+
+    vim.opt.background = "dark"
+  end)
+
+  it("handles contrast aliases 'medium' and empty string '' as regular", function()
+    vim.opt.background = "dark"
+
+    gruvbox.setup({ contrast = "medium" })
+    gruvbox.load("gruvbox_v2")
+    local normal_id = vim.api.nvim_get_hl_id_by_name("Normal")
+    assert.are.same(vim.fn.synIDattr(normal_id, "bg", "gui"), "#282828")
+
+    gruvbox.setup({ contrast = "" })
+    gruvbox.load("gruvbox_v2")
+    local normal_id2 = vim.api.nvim_get_hl_id_by_name("Normal")
+    assert.are.same(vim.fn.synIDattr(normal_id2, "bg", "gui"), "#282828")
+  end)
+
+  it("exports modular color files for direct tinkering (regular, hard, soft)", function()
+    local hard_mod = require("gruvbox_v2.colors.hard")
+    assert.is_table(hard_mod.dark)
+    assert.is_table(hard_mod.light)
+    assert.are.same(hard_mod.dark.bg0, "#1d2021")
+    assert.are.same(hard_mod.dark.bg_dark, "#141617")
+
+    local regular_mod = require("gruvbox_v2.colors.regular")
+    assert.is_table(regular_mod.dark)
+    assert.is_table(regular_mod.light)
+    assert.are.same(regular_mod.dark.bg0, "#282828")
+    assert.are.same(regular_mod.dark.bg_dark, "#1d2021")
+
+    local soft_mod = require("gruvbox_v2.colors.soft")
+    assert.is_table(soft_mod.dark)
+    assert.is_table(soft_mod.light)
+    assert.are.same(soft_mod.dark.bg0, "#32302f")
+    assert.are.same(soft_mod.dark.bg_dark, "#282828")
+  end)
 end)

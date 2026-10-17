@@ -26,7 +26,7 @@
   lazy = false,
   priority = 1000,
   opts = {
-    contrast = "hard",     -- "hard" (default), "soft", or ""
+    contrast = "hard",     -- "hard" (default), "regular", or "soft"
     transparent = false,   -- set to true for buffer-only transparency
   },
   config = function(_, opts)
@@ -40,11 +40,23 @@
 
 ### ⚙️ Customization
 
+#### Contrasts
+Choose from 3 distinct contrast modes:
+- `"regular"` — The original classic Gruvbox contrast (`#282828` buffer) with dimmed floats & sidebars (`#1d2021`).
+- `"hard"` (default) — Deep dark high-contrast Gruvbox (`#1d2021` buffer, `#141617` floats/sidebars).
+- `"soft"` — Warm, gentle Gruvbox (`#32302f` buffer, `#282828` floats/sidebars).
+
+#### Modular Color Architecture
+All color definitions are cleanly separated into dedicated contrast files for easy tinkering:
+- [`lua/gruvbox_v2/colors/regular.lua`](lua/gruvbox_v2/colors/regular.lua)
+- [`lua/gruvbox_v2/colors/hard.lua`](lua/gruvbox_v2/colors/hard.lua)
+- [`lua/gruvbox_v2/colors/soft.lua`](lua/gruvbox_v2/colors/soft.lua)
+
 Customize palette colors or override any highlight group with ease:
 
 ```lua
 require("gruvbox_v2").setup({
-  contrast = "hard",
+  contrast = "regular", -- "regular", "hard", or "soft"
   transparent = true,
   palette_overrides = {
     bg_dark = "#101213", -- custom float / sidebar background
