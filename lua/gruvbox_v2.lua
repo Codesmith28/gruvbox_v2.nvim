@@ -283,7 +283,7 @@ local function get_groups()
     Operator = { fg = colors.orange, italic = config.italic.operators },
     Keyword = { link = "GruvboxRed" },
     Identifier = { link = "GruvboxBlue" },
-    Function = { link = "GruvboxAqua" },
+    Function = { link = "GruvboxGreen" },
     PreProc = { link = "GruvboxAqua" },
     Include = { link = "GruvboxAqua" },
     Define = { link = "GruvboxAqua" },

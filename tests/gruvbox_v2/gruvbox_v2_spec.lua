@@ -623,17 +623,17 @@ describe("tests", function()
     assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(cw), "bg", "gui"), "#504945")
   end)
 
-  it("styles functions as cyan and unbold", function()
+  it("styles functions as green and unbold", function()
     vim.opt.background = "dark"
     gruvbox.setup()
     gruvbox.load("gruvbox_v2")
 
     local func_id = vim.api.nvim_get_hl_id_by_name("Function")
-    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(func_id), "fg", "gui"), "#8ec07c")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(func_id), "fg", "gui"), "#b8bb26")
     assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(func_id), "bold", "gui"), "")
 
     local at_func_id = vim.api.nvim_get_hl_id_by_name("@function")
-    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(at_func_id), "fg", "gui"), "#8ec07c")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(at_func_id), "fg", "gui"), "#b8bb26")
     assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(at_func_id), "bold", "gui"), "")
   end)
 
@@ -890,7 +890,7 @@ describe("tests", function()
 
     -- 2. Syntax & language entities (faded Gruvbox tones for light mode)
     local fn_id = vim.api.nvim_get_hl_id_by_name("Function")
-    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(fn_id), "fg", "gui"), "#427b58")
+    assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(fn_id), "fg", "gui"), "#79740e")
 
     local kw_id = vim.api.nvim_get_hl_id_by_name("Keyword")
     assert.are.same(vim.fn.synIDattr(vim.fn.synIDtrans(kw_id), "fg", "gui"), "#9d0006")
