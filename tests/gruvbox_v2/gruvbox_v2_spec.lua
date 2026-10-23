@@ -33,6 +33,7 @@ describe("tests", function()
       invert_signs = false,
       invert_tabline = false,
       contrast = "hard",
+      ghostty = false,
       palette_overrides = {},
       overrides = {},
       dim_inactive = false,
@@ -966,5 +967,40 @@ describe("tests", function()
     vim.opt.background = "dark"
     gruvbox.setup()
     gruvbox.load("gruvbox_v2")
+  end)
+
+  it("supports ghostty mode that ignores contrast", function()
+    vim.opt.background = "dark"
+    gruvbox.setup({ ghostty = true, contrast = "soft" })
+    gruvbox.load("gruvbox_v2")
+
+    local normal_id = vim.api.nvim_get_hl_id_by_name("Normal")
+    assert.are.same(vim.fn.synIDattr(normal_id, "bg", "gui"), "#282c34") -- Ghostty default background
+
+    local float_id = vim.api.nvim_get_hl_id_by_name("NormalFloat")
+    assert.are.same(vim.fn.synIDattr(float_id, "bg", "gui"), "#21242b") -- dimmed float background
+
+    gruvbox.setup({ ghostty = true, contrast = "hard" })
+    gruvbox.load("gruvbox_v2")
+    normal_id = vim.api.nvim_get_hl_id_by_name("Normal")
+    assert.are.same(vim.fn.synIDattr(normal_id, "bg", "gui"), "#282c34")
+
+    -- Catppuccin-style syntax colors are only applied in ghostty mode
+    local function fg(name)
+      return vim.fn.synIDattr(vim.fn.synIDtrans(vim.api.nvim_get_hl_id_by_name(name)), "fg", "gui")
+    end
+    assert.are.same(fg("@keyword"), "#c397d8") -- mauve-like purple
+    assert.are.same(fg("@function"), "#7aa6da") -- blue
+    assert.are.same(fg("@string"), "#b9ca4a") -- green
+    assert.are.same(fg("@number"), "#de935f") -- peach-like orange
+    assert.are.same(fg("@type"), "#e7c547") -- yellow
+
+    gruvbox.setup({ contrast = "hard" })
+    gruvbox.load("gruvbox_v2")
+    assert.are.same(fg("@keyword"), "#fb4934") -- Gruvbox keeps red keywords
+
+    -- ghostty mode is off by default
+    gruvbox.setup()
+    assert.is_false(gruvbox.config.ghostty)
   end)
 end)

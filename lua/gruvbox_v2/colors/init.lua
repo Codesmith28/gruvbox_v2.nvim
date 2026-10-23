@@ -6,13 +6,16 @@ local M = {}
 M.hard = require("gruvbox_v2.colors.hard")
 M.regular = require("gruvbox_v2.colors.regular")
 M.soft = require("gruvbox_v2.colors.soft")
+M.ghostty = require("gruvbox_v2.colors.ghostty")
 M.base = require("gruvbox_v2.colors.base")
 
 --- Normalize contrast string to one of the 3 supported contrasts
----@param contrast string? "regular" | "hard" | "soft" | "" | "medium"
----@return "regular" | "hard" | "soft"
+---@param contrast string? "regular" | "hard" | "soft" | "ghostty" | "" | "medium"
+---@return "regular" | "hard" | "soft" | "ghostty"
 function M.normalize_contrast(contrast)
-  if contrast == "soft" then
+  if contrast == "ghostty" then
+    return "ghostty"
+  elseif contrast == "soft" then
     return "soft"
   elseif contrast == "regular" or contrast == "medium" or contrast == "" then
     return "regular"
@@ -22,7 +25,7 @@ function M.normalize_contrast(contrast)
 end
 
 --- Get palette for given contrast and background mode
----@param contrast string? "regular" | "hard" | "soft"
+---@param contrast string? "regular" | "hard" | "soft" | "ghostty"
 ---@param background string? "dark" | "light"
 ---@param overrides table<string, string>?
 ---@return table<string, string>

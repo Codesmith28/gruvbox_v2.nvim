@@ -31,6 +31,7 @@ local Gruvbox = {}
 ---@class GruvboxConfig
 ---@field bold boolean?
 ---@field contrast Contrast?
+---@field ghostty boolean? use Ghostty's default theme colors instead of Gruvbox (contrast is ignored)
 ---@field dim_inactive boolean?
 ---@field inverse boolean?
 ---@field invert_selection boolean?
@@ -63,6 +64,7 @@ local default_config = {
   invert_tabline = false,
   inverse = true,
   contrast = "hard",
+  ghostty = false,
   palette_overrides = {},
   overrides = {},
   dim_inactive = false,
@@ -83,13 +85,13 @@ Gruvbox.bg_dark = colors_module.hard.dark.bg_dark
 Gruvbox.bg_buffer = colors_module.hard.dark.bg_buffer
 
 -- Active resolved colors table
-Gruvbox.colors = colors_module.get(Gruvbox.config.contrast, vim.o.background, Gruvbox.config.palette_overrides)
+Gruvbox.colors = colors_module.get(Gruvbox.config.ghostty and "ghostty" or Gruvbox.config.contrast, vim.o.background, Gruvbox.config.palette_overrides)
 
 -- get a hex list of gruvbox colors based on current bg and contrast config
 local function get_colors()
   local config = Gruvbox.config
   local bg = vim.o.background == "light" and "light" or "dark"
-  local contrast = config.contrast
+  local contrast = config.ghostty and "ghostty" or config.contrast
 
   for color, hex in pairs(config.palette_overrides) do
     Gruvbox.palette[color] = hex
@@ -1601,6 +1603,12 @@ local function get_groups()
     NeoTreeTabSeparatorActive = { fg = bg_dark },
     NeoTreeTabSeparatorInactive = { fg = colors.bg2, bg = bg_dark },
   }
+
+  if config.ghostty then
+    for group, hl in pairs(require("gruvbox_v2.syntax_ghostty")(colors, config)) do
+      groups[group] = hl
+    end
+  end
 
   for group, hl in pairs(config.overrides) do
     if groups[group] then

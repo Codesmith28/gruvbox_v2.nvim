@@ -46,11 +46,19 @@ Choose from 3 distinct contrast modes:
 - `"hard"` (default) — Deep dark high-contrast Gruvbox (`#1d2021` buffer, `#161819` floats/sidebars).
 - `"soft"` — Warm, gentle Gruvbox (`#32302f` buffer, `#282828` floats/sidebars).
 
+#### Ghostty Mode
+Set `ghostty = true` to swap the Gruvbox color template for [Ghostty](https://ghostty.org)'s default theme colors (`#282c34` buffer, `#21242b` floats/sidebars, Tomorrow Night accents). Syntax highlighting is also re-mapped Catppuccin-style in this mode (purple keywords, blue functions, green strings, orange numbers/constants, yellow types, teal properties, pastel-pink parameters; see [`syntax_ghostty.lua`](lua/gruvbox_v2/syntax_ghostty.lua)). Everything else (background dimming, transparency, styles, plugin integrations) stays the same, and `contrast` is ignored while this mode is on. A matching light variant is used when `background=light`.
+
+```lua
+require("gruvbox_v2").setup({ ghostty = true, transparent = true })
+```
+
 #### Modular Color Architecture
 All color definitions are cleanly separated into dedicated contrast files for easy tinkering:
 - [`lua/gruvbox_v2/colors/regular.lua`](lua/gruvbox_v2/colors/regular.lua)
 - [`lua/gruvbox_v2/colors/hard.lua`](lua/gruvbox_v2/colors/hard.lua)
 - [`lua/gruvbox_v2/colors/soft.lua`](lua/gruvbox_v2/colors/soft.lua)
+- [`lua/gruvbox_v2/colors/ghostty.lua`](lua/gruvbox_v2/colors/ghostty.lua)
 
 Customize palette colors or override any highlight group with ease:
 
